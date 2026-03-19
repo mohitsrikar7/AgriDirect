@@ -1,11 +1,11 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { createPortal } from "react-dom";
 import api from "../../api/axios";
 import AddProduct from "./AddProduct";
 import { MANDI_CROPS, MANDI_STATES } from "../../constants/mandiOptions";
-
+import { getMandiCommodity } from "../../utils/mandiMapping";
 /* ═══ Section Card (Rains-clean version) ════════════════ */
 const SectionCard = ({ title, badge, children, className = "" }) => (
   <div className={`bg-white rounded-2xl border border-border overflow-hidden ${className}`}>
@@ -43,6 +43,8 @@ const FarmerDashboard = () => {
   const [cropLoading, setCropLoading] = useState(false);
 
   const [mandiPrices, setMandiPrices] = useState([]);
+  const [productMandiMap, setProductMandiMap] = useState({});
+  const mandiCacheRef = useRef({});
   const [mandiSummary, setMandiSummary] = useState(null);
   const [selectedCrop, setSelectedCrop] = useState("");
   const [selectedState, setSelectedState] = useState("");
@@ -69,11 +71,97 @@ const FarmerDashboard = () => {
   const fetchMyProducts = async () => {
     try {
       const res = await api.get("/farmer/my-products");
-      setProducts(res.data);
+      const list = Array.isArray(res.data) ? res.data : [];
+
+      setProducts(list);
+
+      // 🔥 IMPORTANT FIX
+      await fetchMandiForProducts(list);
     } catch (err) {
       console.error("Product fetch error", err);
+      setProducts([]);
     } finally {
       setLoading(false);
+    }
+  };
+  const fetchMandiForProducts = async (productsList) => {
+    try {
+      // ✅ Step 1: Group products by commodity
+      const commodityMap = {};
+
+      productsList.forEach((p) => {
+        const commodity = getMandiCommodity(p.masterProduct?.name);
+        if (!commodity) return;
+
+        if (!commodityMap[commodity]) {
+          commodityMap[commodity] = [];
+        }
+
+        commodityMap[commodity].push(p._id);
+      });
+
+      // ✅ Step 2: Fetch once per commodity
+      const commodityResults = await Promise.all(
+        Object.keys(commodityMap).map(async (commodity) => {
+          try {
+            const cacheKey = commodity + "::" + (selectedState || "Andhra Pradesh");
+
+            // ✅ Check cache first
+            if (mandiCacheRef.current[cacheKey] !== undefined) {
+              return {
+                commodity,
+                avg: mandiCacheRef.current[cacheKey],
+              };
+            }
+
+            // ✅ Fetch from API
+            const res = await api.get("/farmer/mandi-prices", {
+              params: {
+                commodity,
+                state: selectedState || "Andhra Pradesh",
+              },
+            });
+
+            const avg = res.data?.averagePrice || null;
+
+            // ✅ Store in cache
+            mandiCacheRef.current[cacheKey] = avg;
+
+            return {
+              commodity,
+              avg,
+            };
+          } catch {
+            return {
+              commodity,
+              avg: null,
+            };
+          }
+        })
+      );
+
+      // ✅ Step 3: Map results back to products
+      const productMap = {};
+
+      commodityResults.forEach(({ commodity, avg }) => {
+        const productIds = commodityMap[commodity];
+
+        productIds.forEach((id) => {
+          productMap[id] = avg;
+        });
+      });
+
+      // ✅ Step 4: Handle products without mapping
+      productsList.forEach((p) => {
+        if (productMap[p._id] === undefined) {
+          productMap[p._id] = null;
+        }
+      });
+
+      setProductMandiMap(productMap);
+
+    } catch (err) {
+      console.error("Optimized mandi fetch error", err);
     }
   };
 
@@ -125,17 +213,42 @@ const FarmerDashboard = () => {
   };
 
   const fetchMandiPrices = async () => {
-    if (!selectedCrop || !selectedState) { alert("Select crop and state"); return; }
+    if (!selectedCrop || !selectedState) {
+      alert("Select crop and state");
+      return;
+    }
+
+    setMandiSummary(null);
+    setMandiPrices([]);
+
     setMandiLoading(true);
+
     try {
-      const res = await api.get("/farmer/mandi-prices", { params: { commodity: selectedCrop, state: selectedState } });
+      // ✅ use mapping correctly
+      const commodity = getMandiCommodity(selectedCrop);
+
+      if (!commodity) {
+        setMandiSummary(null);
+        setMandiPrices([]);
+        return;
+      }
+
+      const res = await api.get("/farmer/mandi-prices", {
+        params: {
+          commodity,
+          state: selectedState,
+        },
+      });
+
       setMandiSummary({
         bestMarket: res.data.bestMarket,
         lowestMarket: res.data.lowestMarket,
         averagePrice: res.data.averagePrice,
         priceSpread: res.data.priceSpread,
         totalMarkets: res.data.totalMarkets,
+        usedFallback: Boolean(res.data.usedFallback),
       });
+
       setMandiPrices(res.data.records || []);
     } catch (err) {
       console.error(err);
@@ -181,7 +294,9 @@ const FarmerDashboard = () => {
   };
 
   useEffect(() => {
-    if (user) { fetchMyProducts(); fetchWeatherSmart(); }
+    if (user) {
+      fetchMyProducts();
+    }
   }, [user]);
 
   useEffect(() => {
@@ -405,6 +520,15 @@ const FarmerDashboard = () => {
                           </div>
                           <p className="text-xl font-extrabold text-brand">
                             ₹{p.pricePerKg.toFixed(2)} <span className="text-xs font-medium text-brand-muted">/{p.masterProduct?.unit}</span>
+                            {productMandiMap[p._id] === null ? (
+                              <p className="text-xs text-brand-muted mt-1">
+                                No mandi data
+                              </p>
+                            ) : (
+                              <p className="text-xs text-green-600 mt-1 font-medium">
+                                Mandi Avg: ₹{Math.round((productMandiMap[p._id] ?? 0) / 100)}/kg
+                              </p>
+                            )}
                           </p>
                           <div className="flex items-center justify-between text-[11px] text-brand-muted mt-3 mb-1.5">
                             <span>{current}/{initial} {p.masterProduct?.unit}</span>
@@ -465,6 +589,15 @@ const FarmerDashboard = () => {
                           </div>
                           <p className="text-2xl font-extrabold text-brand">
                             ₹{p.pricePerKg.toFixed(2)}
+                            {productMandiMap[p._id] === null ? (
+                              <p className="text-xs text-brand-muted mt-1">
+                                No mandi data
+                              </p>
+                            ) : (
+                              <p className="text-xs text-green-600 mt-1 font-medium">
+                                Mandi Avg: ₹{Math.round((productMandiMap[p._id] ?? 0) / 100)}/kg
+                              </p>
+                            )}
                             <span className="text-xs font-medium text-brand-muted ml-1">/{p.masterProduct?.unit}</span>
                           </p>
                           <div className="grid grid-cols-2 gap-3 mt-4">
@@ -528,9 +661,13 @@ const FarmerDashboard = () => {
                     <select value={selectedCrop} onChange={(e) => setSelectedCrop(e.target.value)}
                       className="w-full border border-border rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-accent/30 focus:border-accent outline-none transition-all appearance-none bg-white">
                       <option value="">Select Crop</option>
-                      {products.map((p) => (
-                        <option key={p._id} value={p.masterProduct?.name}>{p.masterProduct?.name}</option>
-                      ))}
+                      {products
+                        .filter(p => getMandiCommodity(p.masterProduct?.name))
+                        .map((p) => (
+                          <option key={p._id} value={p.masterProduct?.name}>
+                            {p.masterProduct?.name}
+                          </option>
+                        ))}
                     </select>
                   </div>
                   <div className="flex-1">
@@ -553,26 +690,33 @@ const FarmerDashboard = () => {
 
                 {/* Mandi Summary Cards */}
                 {mandiSummary && (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-surface border border-border-light border-l-4 border-l-accent rounded-xl p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Best Market</p>
-                      <p className="text-sm font-bold text-brand mt-1">{mandiSummary.bestMarket.market}</p>
-                      <p className="text-lg font-extrabold text-brand">₹{mandiSummary.bestMarket.modal_price}</p>
+                  <div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-surface border border-border-light border-l-4 border-l-accent rounded-xl p-4">
+                        <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Best Market</p>
+                        <p className="text-sm font-bold text-brand mt-1">{mandiSummary?.bestMarket?.market || "N/A"}</p>
+                        <p className="text-lg font-extrabold text-brand">₹{mandiSummary?.bestMarket?.modal_price ?? 0}</p>
+                      </div>
+                      <div className="bg-surface border border-border-light border-l-4 border-l-brand-muted rounded-xl p-4">
+                        <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Average Price</p>
+                        <p className="text-xl font-extrabold text-brand mt-2">₹{mandiSummary.averagePrice}</p>
+                      </div>
+                      <div className="bg-surface border border-border-light border-l-4 border-l-red-400 rounded-xl p-4">
+                        <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Lowest Market</p>
+                        <p className="text-sm font-bold text-brand mt-1">{mandiSummary?.lowestMarket?.market || "N/A"}</p>
+                        <p className="text-lg font-extrabold text-brand">₹{mandiSummary?.lowestMarket?.modal_price ?? 0}</p>
+                      </div>
+                      <div className="bg-surface border border-border-light border-l-4 border-l-amber-400 rounded-xl p-4">
+                        <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Price Spread</p>
+                        <p className="text-xl font-extrabold text-brand mt-2">₹{mandiSummary.priceSpread}</p>
+                        <p className="text-[10px] text-brand-muted mt-0.5">{mandiSummary.totalMarkets} markets</p>
+                      </div>
                     </div>
-                    <div className="bg-surface border border-border-light border-l-4 border-l-brand-muted rounded-xl p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Average Price</p>
-                      <p className="text-xl font-extrabold text-brand mt-2">₹{mandiSummary.averagePrice}</p>
-                    </div>
-                    <div className="bg-surface border border-border-light border-l-4 border-l-red-400 rounded-xl p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Lowest Market</p>
-                      <p className="text-sm font-bold text-brand mt-1">{mandiSummary.lowestMarket.market}</p>
-                      <p className="text-lg font-extrabold text-brand">₹{mandiSummary.lowestMarket.modal_price}</p>
-                    </div>
-                    <div className="bg-surface border border-border-light border-l-4 border-l-amber-400 rounded-xl p-4">
-                      <p className="text-[10px] uppercase tracking-wider text-brand-muted font-medium">Price Spread</p>
-                      <p className="text-xl font-extrabold text-brand mt-2">₹{mandiSummary.priceSpread}</p>
-                      <p className="text-[10px] text-brand-muted mt-0.5">{mandiSummary.totalMarkets} markets</p>
-                    </div>
+                    {mandiSummary?.usedFallback && mandiPrices.length > 0 && (
+                      <p className="text-xs text-amber-600 mt-2">
+                        Showing data from nearby markets (state data unavailable)
+                      </p>
+                    )}
                   </div>
                 )}
 

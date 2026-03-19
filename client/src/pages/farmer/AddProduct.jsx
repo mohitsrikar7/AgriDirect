@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../../api/axios";
 import { MANDI_STATES } from "../../constants/mandiOptions";
+import { getMandiCommodity } from "../../utils/mandiMapping";
 
 const AddProduct = ({ onAdded }) => {
   const [masterProducts, setMasterProducts] = useState([]);
   const [form, setForm] = useState({ masterProduct: "", price: "", quantity: "", state: "" });
   const [recommendedPrice, setRecommendedPrice] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const requestCounterRef = useRef(0);
 
   useEffect(() => {
     const fetchMasterProducts = async () => {
@@ -53,22 +55,50 @@ const AddProduct = ({ onAdded }) => {
     }
   };
 
-  const fetchPriceRecommendation = async (cropName) => {
+  const fetchPriceRecommendation = async (cropName, stateValue) => {
     try {
-      const res = await api.get("/farmer/mandi-prices", {
-        params: { commodity: cropName, state: form.state },
-      });
-      const records = res.data.records;
-      if (!records || records.length === 0) { setRecommendedPrice(null); return; }
+      requestCounterRef.current += 1;
+      const requestId = requestCounterRef.current;
 
-      const prices = records.map((r) => Number(r.modal_price)).filter((p) => !isNaN(p) && p > 0);
-      if (prices.length === 0) { setRecommendedPrice(null); return; }
+      const mapped = getMandiCommodity(cropName);
+      if (!mapped) {
+        if (requestCounterRef.current !== requestId) return;
+        setRecommendedPrice(null);
+        return;
+      }
+
+      const res = await api.get("/farmer/mandi-prices", {
+        params: {
+          commodity: mapped,
+          state: stateValue,
+        },
+      });
+
+      const records = res.data.records;
+      if (!records || records.length === 0) {
+        if (requestCounterRef.current !== requestId) return;
+        setRecommendedPrice(null);
+        return;
+      }
+
+      const prices = records
+        .map((r) => Number(r.modal_price))
+        .filter((p) => !isNaN(p) && p > 0);
+
+      if (prices.length === 0) {
+        if (requestCounterRef.current !== requestId) return;
+        setRecommendedPrice(null);
+        return;
+      }
 
       const avg = prices.reduce((sum, price) => sum + price, 0) / prices.length;
+
       const quintalPrice = Math.round(avg);
       const perKgPrice = Math.round(quintalPrice / 100);
       const lower = Math.round(perKgPrice * 0.95);
       const upper = Math.round(perKgPrice * 1.05);
+
+      if (requestCounterRef.current !== requestId) return;
 
       setRecommendedPrice({ quintal: quintalPrice, perKg: perKgPrice, lower, upper });
     } catch (err) {
@@ -110,7 +140,7 @@ const AddProduct = ({ onAdded }) => {
               onChange={(e) => {
                 handleChange(e);
                 const selected = masterProducts.find((p) => p._id === e.target.value);
-                if (selected) fetchPriceRecommendation(selected.name);
+                if (selected) fetchPriceRecommendation(selected.name, form.state);
               }}
               className="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-green-500/30 focus:border-green-500 outline-none transition-all appearance-none bg-white">
               <option value="">Select Product</option>
@@ -122,11 +152,13 @@ const AddProduct = ({ onAdded }) => {
           <div>
             <label className="block text-[11px] uppercase tracking-wider text-gray-400 font-medium mb-1.5">State (for price insight)</label>
             <select name="state" value={form.state} onChange={(e) => {
+              const nextState = e.target.value;
               handleChange(e);
+
               if (form.masterProduct) {
                 const selected = masterProducts.find((p) => p._id === form.masterProduct);
                 if (selected) {
-                  setTimeout(() => fetchPriceRecommendation(selected.name), 100);
+                  fetchPriceRecommendation(selected.name, nextState);
                 }
               }
             }}
