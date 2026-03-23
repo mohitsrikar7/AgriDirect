@@ -7,22 +7,25 @@
    Adapted for AgriDirect Agriculture Platform
    ══════════════════════════════════════════ */
 
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap');
+
 :root {
-  /* Core neutrals (Rains-style) */
-  --color-surface: #f5f5f0;
-  --color-surface-light: #fafaf7;
+  /* Core neutrals */
+  --color-surface: #faf8f4;
+  --color-surface-alt: #f0ede6;
   --color-surface-card: #ffffff;
   --color-border: #e8e8e3;
   --color-border-light: #f0f0eb;
 
   /* Typography */
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #6b6b63;
-  --color-text-muted: #9c9c94;
+  --color-text-primary: #111;
+  --color-text-secondary: #666;
+  --color-text-muted: #999;
 
-  /* Accent — earthy green, agricultural identity */
+  /* Accent — earthy green */
   --color-accent: #2d5a3d;
   --color-accent-light: #3a7550;
+  --color-accent-bright: #52b788;
   --color-accent-muted: #e8f0eb;
 
   /* Functional */
@@ -32,7 +35,7 @@
 }
 
 * {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -68,7 +71,7 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* ── Rains-style Pill Buttons ─────────── */
+/* ── Pill Buttons ─────────────────────── */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -115,20 +118,12 @@ body {
   background: #333;
 }
 
-/* ── Oversized Typography (Rains editorial) ── */
+/* ── Typography Scale ───────────────────── */
 .text-hero {
   font-size: clamp(3rem, 10vw, 10rem);
   font-weight: 800;
   line-height: 0.9;
-  letter-spacing: -0.03em;
-}
-
-.text-hero-overlay {
-  font-size: clamp(4rem, 14vw, 14rem);
-  font-weight: 900;
-  line-height: 0.85;
   letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.35);
 }
 
 .text-display {
@@ -159,27 +154,13 @@ body {
 }
 
 @keyframes float {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-float {
@@ -187,7 +168,7 @@ body {
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeInUp 0.5s ease-out forwards;
 }
 
 /* ── Nav Scroll Effect ──────────────────── */

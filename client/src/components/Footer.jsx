@@ -36,9 +36,9 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
                 className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up"
             >
                 {/* Header */}
-                <div style={{ backgroundColor: "#1a1a1a" }} className="px-6 py-5">
+                <div style={{ backgroundColor: "#111" }} className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                             </svg>
@@ -60,7 +60,9 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
                     {onSwitchRole && (
                         <button
                             onClick={onSwitchRole}
-                            className="w-full pill pill-filled justify-center py-3"
+                            className="w-full py-3 rounded-full text-sm font-semibold
+                              bg-[#111] text-white hover:bg-[#333] transition-colors
+                              flex items-center justify-center gap-2"
                         >
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
@@ -71,7 +73,8 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
 
                     <button
                         onClick={onClose}
-                        className="w-full pill pill-outline justify-center py-3"
+                        className="w-full py-3 rounded-full text-sm font-semibold
+                          border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
                     >
                         Go Back
                     </button>
@@ -93,7 +96,7 @@ const Footer = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [modalFeature, setModalFeature] = useState("");
 
-    // Don't show footer on landing (scroll-snapping) or auth pages (full-bleed)
+    // Don't show footer on landing (has its own) or auth pages
     const hiddenRoutes = ["/", "/login", "/register"];
     if (hiddenRoutes.includes(location.pathname)) return null;
 
@@ -108,14 +111,11 @@ const Footer = () => {
         e.preventDefault();
 
         if (isFarmer) {
-            // Already in farmer mode → navigate directly
             navigate(path);
         } else if (hasFarmerRole) {
-            // Has farmer role but currently in customer mode → show switch modal
             setModalFeature(featureName);
             setModalOpen(true);
         } else {
-            // Customer-only user → show info modal (no switch option)
             setModalFeature(featureName);
             setModalOpen(true);
         }
@@ -158,7 +158,11 @@ const Footer = () => {
     /* ── Render a link column ── */
     const renderLinkColumn = (title, links) => (
         <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/30 mb-5">
+            <h4 style={{
+                fontSize: 10, fontWeight: 700, textTransform: "uppercase",
+                letterSpacing: "0.3em", color: "rgba(255,255,255,0.25)",
+                marginBottom: "1.25rem",
+            }}>
                 {title}
             </h4>
             <ul className="space-y-3">
@@ -170,7 +174,7 @@ const Footer = () => {
                                 <a
                                     href="#"
                                     onClick={(e) => handleFarmerLink(e, link.to, link.label)}
-                                    className="text-sm text-white/50 hover:text-white transition-colors font-light cursor-pointer"
+                                    className="text-sm text-white/45 hover:text-white transition-colors font-light cursor-pointer"
                                 >
                                     {link.label}
                                     {!isFarmer && (
@@ -182,7 +186,7 @@ const Footer = () => {
                             ) : (
                                 <Link
                                     to={link.to}
-                                    className="text-sm text-white/50 hover:text-white transition-colors font-light"
+                                    className="text-sm text-white/45 hover:text-white transition-colors font-light"
                                 >
                                     {link.label}
                                 </Link>
@@ -195,23 +199,26 @@ const Footer = () => {
 
     return (
         <>
-            <footer style={{ backgroundColor: "#1a1a1a" }} className="text-white">
+            <footer style={{ backgroundColor: "#111" }} className="text-white">
                 {/* Main Footer Content */}
                 <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-16">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
                         {/* ── Brand Column ── */}
                         <div className="lg:col-span-1">
-                            <h3 className="text-sm font-extrabold tracking-[0.2em] uppercase mb-4">
+                            <h3 style={{
+                                fontSize: "1rem", fontWeight: 800,
+                                letterSpacing: "-0.02em", marginBottom: "1rem",
+                            }}>
                                 AgriDirect
                             </h3>
-                            <p className="text-white/40 text-sm leading-relaxed font-light max-w-xs">
+                            <p className="text-white/35 text-sm leading-relaxed font-light max-w-xs">
                                 Connecting farmers directly with customers through smart technology,
                                 fair pricing, and transparent trade.
                             </p>
 
-                            {/* Social Icons — open in new tabs */}
-                            <div className="flex items-center gap-3 mt-6">
+                            {/* Social Icons */}
+                            <div className="flex items-center gap-2.5 mt-6">
                                 {SOCIAL_LINKS.map((social) => (
                                     <a
                                         key={social.label}
@@ -220,10 +227,10 @@ const Footer = () => {
                                         rel="noopener noreferrer"
                                         aria-label={`Visit us on ${social.label}`}
                                         title={social.label}
-                                        className="w-9 h-9 rounded-full border border-white/15 flex items-center justify-center
-                      hover:bg-white/10 hover:border-white/30 transition-all"
+                                        className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center
+                                          hover:bg-white/10 hover:border-white/25 transition-all"
                                     >
-                                        <svg className="w-3.5 h-3.5 fill-current text-white/50" viewBox="0 0 24 24">
+                                        <svg className="w-3.5 h-3.5 fill-current text-white/40" viewBox="0 0 24 24">
                                             <path d={social.icon} />
                                         </svg>
                                     </a>
@@ -239,9 +246,12 @@ const Footer = () => {
                 </div>
 
                 {/* ── Bottom Bar ── */}
-                <div className="border-t border-white/10">
+                <div className="border-t border-white/[0.06]">
                     <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-                        <p className="text-[11px] text-white/30 font-medium uppercase tracking-wider">
+                        <p style={{
+                            fontSize: 11, color: "rgba(255,255,255,0.2)",
+                            fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase",
+                        }}>
                             © {currentYear} AgriDirect. All rights reserved.
                         </p>
                         <div className="flex items-center gap-6">
@@ -249,8 +259,13 @@ const Footer = () => {
                                 <a
                                     key={item}
                                     href="#"
-                                    className="text-[11px] text-white/30 hover:text-white/60
-                    transition-colors font-medium uppercase tracking-wider"
+                                    style={{
+                                        fontSize: 11, color: "rgba(255,255,255,0.2)",
+                                        fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase",
+                                        textDecoration: "none", transition: "color 0.2s",
+                                    }}
+                                    onMouseOver={e => e.currentTarget.style.color = "rgba(255,255,255,0.5)"}
+                                    onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.2)"}
                                 >
                                     {item}
                                 </a>
@@ -260,7 +275,7 @@ const Footer = () => {
                 </div>
             </footer>
 
-            {/* Role-restricted modal (portalled to body) */}
+            {/* Role-restricted modal */}
             <FarmerOnlyModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}

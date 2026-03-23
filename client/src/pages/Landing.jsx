@@ -51,7 +51,7 @@ const useReveal = () => {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([e]) => { if (e.isIntersecting) { el.classList.add("lp-visible"); obs.unobserve(el); } },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -59,10 +59,10 @@ const useReveal = () => {
   return ref;
 };
 
-const Reveal = ({ children, className = "", delay = 0 }) => {
+const Reveal = ({ children, className = "", delay = 0, style = {} }) => {
   const ref = useReveal();
   return (
-    <div ref={ref} className={`lp-reveal ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+    <div ref={ref} className={`lp-reveal ${className}`} style={{ transitionDelay: `${delay}ms`, ...style }}>
       {children}
     </div>
   );
@@ -70,58 +70,68 @@ const Reveal = ({ children, className = "", delay = 0 }) => {
 
 /* ─── Injected styles ───────────────────────────────── */
 const STYLES = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500;600;700;800;900&display=swap');
 
-  .lp-serif { font-family: 'Cormorant Garamond', 'Didot', Georgia, serif; }
-  .lp-sans  { font-family: 'DM Sans', system-ui, sans-serif; }
+  .lp-font { font-family: 'Outfit', system-ui, sans-serif; }
 
-  .lp-reveal  { opacity:0; transform:translateY(26px); transition: opacity 0.75s ease, transform 0.75s ease; will-change: opacity, transform; }
+  .lp-reveal  { opacity:0; transform:translateY(30px); transition: opacity 0.8s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94); will-change: opacity, transform; }
   .lp-visible { opacity:1; transform:translateY(0); }
 
-  @keyframes lp-up { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-  .lp-u0 { animation: lp-up 0.9s ease forwards; }
-  .lp-u1 { animation: lp-up 0.9s 0.18s ease forwards; opacity:0; }
-  .lp-u2 { animation: lp-up 0.9s 0.34s ease forwards; opacity:0; }
-  .lp-u3 { animation: lp-up 0.9s 0.5s  ease forwards; opacity:0; }
+  @keyframes lp-up { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  .lp-u0 { animation: lp-up 0.9s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+  .lp-u1 { animation: lp-up 0.9s 0.15s cubic-bezier(0.25,0.46,0.45,0.94) forwards; opacity:0; }
+  .lp-u2 { animation: lp-up 0.9s 0.3s cubic-bezier(0.25,0.46,0.45,0.94) forwards; opacity:0; }
+  .lp-u3 { animation: lp-up 0.9s 0.45s cubic-bezier(0.25,0.46,0.45,0.94) forwards; opacity:0; }
 
-  @keyframes lp-blink { 0%,100%{opacity:0.35} 50%{opacity:0.8} }
-  .lp-blink { animation: lp-blink 2.2s ease-in-out infinite; }
+  @keyframes lp-blink { 0%,100%{opacity:0.3} 50%{opacity:0.7} }
+  .lp-blink { animation: lp-blink 2.4s ease-in-out infinite; }
 
-  .lp-split-img { transition: transform 1.1s cubic-bezier(0.25,0.46,0.45,0.94); }
-  .lp-split:hover .lp-split-img { transform: scale(1.05); }
-  .lp-split-cta { color: rgba(255,255,255,0); transition: color 0.45s ease, transform 0.45s ease; transform: translateX(-8px); }
-  .lp-split:hover .lp-split-cta { color: rgba(255,255,255,0.65); transform: translateX(0); }
-  .lp-split-line { width:1.25rem; transition: width 0.45s ease, opacity 0.45s ease; opacity:0.25; }
-  .lp-split:hover .lp-split-line { width:2.25rem; opacity:0.55; }
-  .lp-split-overlay { transition: opacity 0.5s ease; }
-  .lp-split:hover .lp-split-overlay { opacity:0.88 !important; }
-  .lp-row:hover .lp-row-img { transform: scale(1.04); }
-
-  .lp-cat-img { transition: transform 0.85s cubic-bezier(0.25,0.46,0.45,0.94); }
-  .lp-cat:hover .lp-cat-img { transform: scale(1.07); }
-  .lp-cat-cta { opacity:0; transform:translateY(5px); transition: opacity 0.3s ease, transform 0.3s ease; }
+  /* Category card hovers */
+  .lp-cat-img { transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .lp-cat:hover .lp-cat-img { transform: scale(1.06); }
+  .lp-cat-overlay { transition: opacity 0.4s ease; }
+  .lp-cat:hover .lp-cat-overlay { opacity: 0.85 !important; }
+  .lp-cat-cta { opacity:0; transform:translateY(6px); transition: opacity 0.35s ease, transform 0.35s ease; }
   .lp-cat:hover .lp-cat-cta { opacity:1; transform:translateY(0); }
 
+  /* Feature bar hovers */
   .lp-feat-bar { transform:scaleX(0); transform-origin:left; transition: transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94); }
   .lp-feat:hover .lp-feat-bar { transform:scaleX(1); }
-  .lp-feat-num { transition: color 0.35s ease; }
-  .lp-feat:hover .lp-feat-num { color: #3a7550; }
+  .lp-feat-num { transition: color 0.35s ease, transform 0.35s ease; }
+  .lp-feat:hover .lp-feat-num { color: #52b788; transform: translateX(4px); }
 
-  .lp-dot { border:none; cursor:pointer; padding:0; transition: all 0.4s ease; }
+  /* Row image zoom */
+  .lp-row-img { transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94); }
+  .lp-row:hover .lp-row-img { transform: scale(1.04); }
 
-  .lp-wordmark {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(5rem, 19vw, 19rem);
-    font-weight: 300;
-    letter-spacing: -0.04em;
-    line-height: 0.82;
-    color: white;
-    opacity: 0.045;
-    user-select: none;
-    pointer-events: none;
-    white-space: nowrap;
-    display: block;
-    padding: 0.5rem clamp(1rem, 4vw, 4rem);
+  /* Pill buttons */
+  .lp-pill {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 0.5rem; border-radius: 9999px;
+    font-size: 0.8125rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s ease;
+    cursor: pointer; padding: 0.85rem 2rem;
+  }
+  .lp-pill-white { background: #fff; color: #111; border: 1.5px solid #fff; }
+  .lp-pill-white:hover { background: #f0ede6; border-color: #f0ede6; }
+  .lp-pill-ghost { background: transparent; color: rgba(255,255,255,0.7); border: 1.5px solid rgba(255,255,255,0.25); }
+  .lp-pill-ghost:hover { border-color: rgba(255,255,255,0.6); color: #fff; background: rgba(255,255,255,0.06); }
+  .lp-pill-dark { background: #111; color: #fff; border: 1.5px solid #111; }
+  .lp-pill-dark:hover { background: #333; border-color: #333; }
+
+  /* Slide dots */
+  .lp-dot { border:none; cursor:pointer; padding:0; border-radius: 9999px; transition: all 0.4s ease; }
+
+  @media (max-width: 768px) {
+    .lp-split-grid { grid-template-columns: 1fr !important; }
+    .lp-hero-title { font-size: clamp(3rem, 14vw, 5rem) !important; }
+    .lp-section-title { font-size: clamp(2.5rem, 8vw, 4rem) !important; }
+    .lp-cat-grid { grid-template-columns: 1fr 1fr !important; }
+  }
+
+  @media (max-width: 480px) {
+    .lp-cat-grid { grid-template-columns: 1fr !important; }
   }
 `;
 
@@ -139,81 +149,64 @@ export default function Landing() {
   return (
     <>
       <style>{STYLES}</style>
-      <div className="lp-sans" style={{ background: "#F7F3EC", color: "#111009" }}>
+      <div className="lp-font" style={{ background: "#faf8f4", color: "#111" }}>
 
         {/* ══════════════════════════════════════════
-            §1  HERO
+            §1  HERO — Full-bleed with massive typography
             ══════════════════════════════════════════ */}
-        <section style={{ position: "relative", height: "100svh", minHeight: 560, overflow: "hidden" }}>
+        <section style={{ position: "relative", height: "100svh", minHeight: 600, overflow: "hidden" }}>
 
+          {/* Slideshow */}
           {heroImages.map((src, i) => (
             <div key={i} style={{
               position: "absolute", inset: 0,
               backgroundImage: `url(${src})`,
               backgroundSize: "cover", backgroundPosition: "center",
               opacity: i === current ? 1 : 0,
-              transition: "opacity 1.8s ease-in-out",
+              transition: "opacity 1.6s ease-in-out",
             }} />
           ))}
 
+          {/* Gradient overlay */}
           <div style={{
             position: "absolute", inset: 0,
-            background: "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.22) 50%, rgba(0,0,0,0.05) 100%)",
+            background: "linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.2) 45%, rgba(0,0,0,0.08) 100%)",
           }} />
 
-          {/* Content */}
+          {/* Hero content */}
           <div style={{
             position: "relative", zIndex: 10, height: "100%",
             display: "flex", flexDirection: "column", justifyContent: "flex-end",
-            padding: "clamp(2rem, 5vw, 4.5rem)",
-            paddingBottom: "clamp(4rem, 7vw, 6rem)",
+            padding: "clamp(2rem, 5vw, 5rem)",
+            paddingBottom: "clamp(5rem, 8vw, 7rem)",
           }}>
-            <span className="lp-u0 lp-sans" style={{
-              fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.38)", display: "block", marginBottom: "1rem",
-            }}>
-              — Farm to Table
-            </span>
 
-            <h1 className="lp-serif lp-u1" style={{
-              fontSize: "clamp(4rem, 10vw, 9.5rem)",
-              fontWeight: 300, lineHeight: 0.9,
-              letterSpacing: "-0.02em", color: "#fff", marginBottom: "1.5rem",
+            <h1 className="lp-u1 lp-hero-title" style={{
+              fontSize: "clamp(4.5rem, 11vw, 10rem)",
+              fontWeight: 800, lineHeight: 0.88,
+              letterSpacing: "-0.04em",
+              color: "#f0e68c",
+              textTransform: "lowercase",
+              marginBottom: "1.5rem",
+              maxWidth: "80%",
             }}>
-              AgriDirect
+              fresh from farm
             </h1>
 
-            <p className="lp-sans lp-u2" style={{
-              fontSize: "clamp(0.875rem, 1.4vw, 1.05rem)",
-              color: "rgba(255,255,255,0.5)", fontWeight: 300,
-              maxWidth: 360, lineHeight: 1.7, marginBottom: "2.25rem",
+            <p className="lp-u2" style={{
+              fontSize: "clamp(0.9375rem, 1.4vw, 1.125rem)",
+              color: "rgba(255,255,255,0.55)", fontWeight: 300,
+              maxWidth: 400, lineHeight: 1.7, marginBottom: "2.5rem",
             }}>
-              Connecting farmers directly with your table.<br />
-              No middlemen. No markups.
+              Connecting farmers directly with your table.
+              <br />No middlemen. No markups. Just honest food.
             </p>
 
             <div className="lp-u3" style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
-              <Link to="/register" style={{
-                display: "inline-block", background: "#fff", color: "#111009",
-                padding: "0.8rem 2rem", fontSize: 11, fontWeight: 600,
-                letterSpacing: "0.09em", textTransform: "uppercase",
-                textDecoration: "none", transition: "background 0.25s",
-              }}
-                onMouseOver={e => e.currentTarget.style.background = "#e5e1d8"}
-                onMouseOut={e => e.currentTarget.style.background = "#fff"}
-              >
+              <Link to="/register" className="lp-pill lp-pill-white">
                 Get Started
               </Link>
-              <a href="#split" style={{
-                display: "inline-block", background: "transparent", color: "#fff",
-                padding: "0.8rem 2rem", fontSize: 11, fontWeight: 400,
-                letterSpacing: "0.09em", textTransform: "uppercase",
-                textDecoration: "none", border: "1px solid rgba(255,255,255,0.3)",
-                transition: "border-color 0.25s, background 0.25s",
-              }}
-                onMouseOver={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.65)"; e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}
-                onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.background = "transparent"; }}
-              >
+              <a href="#explore" className="lp-pill lp-pill-ghost">
                 Explore
               </a>
             </div>
@@ -221,31 +214,31 @@ export default function Landing() {
 
           {/* Slide dots */}
           <div style={{
-            position: "absolute", bottom: "clamp(1.5rem, 3vw, 2.5rem)",
-            right: "clamp(2rem, 5vw, 4.5rem)",
-            display: "flex", gap: 7, alignItems: "center",
+            position: "absolute", bottom: "clamp(2rem, 3vw, 3rem)",
+            right: "clamp(2rem, 5vw, 5rem)",
+            display: "flex", gap: 8, alignItems: "center",
           }}>
             {heroImages.map((_, i) => (
               <button key={i} className="lp-dot" onClick={() => setCurrent(i)} style={{
-                width: i === current ? 28 : 7, height: 7,
-                background: i === current ? "#fff" : "rgba(255,255,255,0.28)",
+                width: i === current ? 32 : 8, height: 8,
+                background: i === current ? "#fff" : "rgba(255,255,255,0.25)",
               }} />
             ))}
           </div>
 
           {/* Scroll indicator */}
           <div style={{
-            position: "absolute", right: "clamp(2rem, 5vw, 4.5rem)", top: "50%",
+            position: "absolute", right: "clamp(2rem, 5vw, 5rem)", top: "50%",
             transform: "translateY(-50%)",
             display: "flex", flexDirection: "column", alignItems: "center", gap: 10,
           }}>
             <span style={{
-              fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase",
-              color: "rgba(255,255,255,0.25)", writingMode: "vertical-rl",
+              fontSize: 9, letterSpacing: "0.45em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.2)", writingMode: "vertical-rl",
             }}>Scroll</span>
             <div className="lp-blink" style={{
-              width: 1, height: 52,
-              background: "linear-gradient(to bottom, rgba(255,255,255,0.5), transparent)",
+              width: 1, height: 56,
+              background: "linear-gradient(to bottom, rgba(255,255,255,0.45), transparent)",
             }} />
           </div>
         </section>
@@ -253,65 +246,52 @@ export default function Landing() {
         {/* ══════════════════════════════════════════
             §2  FARMER / CUSTOMER SPLIT
             ══════════════════════════════════════════ */}
-        <section id="split">
+        <section id="explore">
 
-          {/* ── Farmer row — image left, text right ── */}
-          <div className="lp-row" style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            minHeight: "85vh",
+          {/* ── Farmer Row ── */}
+          <div className="lp-row lp-split-grid" style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "85vh",
           }}>
             {/* Image */}
-            <div style={{ position: "relative", overflow: "hidden", minHeight: "60vh" }}>
+            <div style={{ position: "relative", overflow: "hidden", minHeight: "55vh" }}>
               <div className="lp-row-img" style={{
                 position: "absolute", inset: 0,
                 backgroundImage: "url(/images/farmer-hero.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center top",
-                transition: "transform 1.1s cubic-bezier(0.25,0.46,0.45,0.94)",
+                backgroundSize: "cover", backgroundPosition: "center top",
               }} />
             </div>
 
             {/* Text */}
             <Reveal>
               <div style={{
-                height: "100%", minHeight: "60vh",
+                height: "100%", minHeight: "55vh",
                 display: "flex", flexDirection: "column", justifyContent: "center",
                 padding: "clamp(3rem, 6vw, 7rem)",
-                background: "#F7F3EC",
-                borderLeft: "1px solid #ddd8cf",
+                background: "#faf8f4",
               }}>
-                <span className="lp-sans" style={{
-                  fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase",
-                  color: "#9c9c94", display: "block", marginBottom: "1rem",
+                <span style={{
+                  fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
+                  color: "#999", display: "block", marginBottom: "1.25rem", fontWeight: 500,
                 }}>
                   I am a
                 </span>
-                <h2 className="lp-serif" style={{
-                  fontSize: "clamp(4.5rem, 8vw, 8.5rem)", fontWeight: 300,
-                  color: "#111009", lineHeight: 0.9, letterSpacing: "-0.02em",
-                  marginBottom: "1.75rem",
+                <h2 className="lp-section-title" style={{
+                  fontSize: "clamp(4rem, 8vw, 8rem)", fontWeight: 800,
+                  color: "#111", lineHeight: 0.9, letterSpacing: "-0.04em",
+                  marginBottom: "1.75rem", textTransform: "lowercase",
                 }}>
-                  Farmer
+                  farmer
                 </h2>
-                <div style={{ width: 40, height: 1, background: "#ddd8cf", marginBottom: "1.75rem" }} />
-                <p className="lp-sans" style={{
-                  fontSize: "0.9375rem", color: "#6b6b63",
-                  fontWeight: 300, lineHeight: 1.75, maxWidth: 280, marginBottom: "2.5rem",
+                <div style={{ width: 48, height: 2, background: "#2d5a3d", marginBottom: "1.75rem", borderRadius: 1 }} />
+                <p style={{
+                  fontSize: "0.9375rem", color: "#666",
+                  fontWeight: 300, lineHeight: 1.75, maxWidth: 320, marginBottom: "2.5rem",
                 }}>
                   List your produce, get fair prices, and reach customers directly across India. No middlemen, no hassle.
                 </p>
-                <Link to="/register" style={{
-                  display: "inline-flex", alignItems: "center", gap: 10,
-                  fontSize: 11, fontWeight: 600, letterSpacing: "0.09em", textTransform: "uppercase",
-                  color: "#111009", textDecoration: "none",
-                  transition: "gap 0.3s ease",
-                }}
-                  onMouseOver={e => e.currentTarget.style.gap = "16px"}
-                  onMouseOut={e => e.currentTarget.style.gap = "10px"}
-                >
+                <Link to="/register" className="lp-pill lp-pill-dark" style={{ alignSelf: "flex-start" }}>
                   Start Selling
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </Link>
@@ -319,52 +299,41 @@ export default function Landing() {
             </Reveal>
           </div>
 
-          {/* ── Customer row — text left, image right ── */}
-          <div className="lp-row" style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            minHeight: "70vh",
-            borderTop: "1px solid #ddd8cf",
+          {/* ── Customer Row ── */}
+          <div className="lp-row lp-split-grid" style={{
+            display: "grid", gridTemplateColumns: "1fr 1fr", minHeight: "75vh",
           }}>
             {/* Text */}
             <Reveal>
               <div style={{
-                height: "100%", minHeight: "60vh",
+                height: "100%", minHeight: "55vh",
                 display: "flex", flexDirection: "column", justifyContent: "center",
                 padding: "clamp(3rem, 6vw, 7rem)",
-                background: "#F7F3EC",
+                background: "#f0ede6",
               }}>
-                <span className="lp-sans" style={{
-                  fontSize: 9, letterSpacing: "0.55em", textTransform: "uppercase",
-                  color: "#9c9c94", display: "block", marginBottom: "1rem",
+                <span style={{
+                  fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
+                  color: "#999", display: "block", marginBottom: "1.25rem", fontWeight: 500,
                 }}>
                   I am a
                 </span>
-                <h2 className="lp-serif" style={{
-                  fontSize: "clamp(4.5rem, 8vw, 8.5rem)", fontWeight: 300,
-                  color: "#111009", lineHeight: 0.9, letterSpacing: "-0.02em",
-                  marginBottom: "1.75rem",
+                <h2 className="lp-section-title" style={{
+                  fontSize: "clamp(4rem, 8vw, 8rem)", fontWeight: 800,
+                  color: "#111", lineHeight: 0.9, letterSpacing: "-0.04em",
+                  marginBottom: "1.75rem", textTransform: "lowercase",
                 }}>
-                  Customer
+                  customer
                 </h2>
-                <div style={{ width: 40, height: 1, background: "#ddd8cf", marginBottom: "1.75rem" }} />
-                <p className="lp-sans" style={{
-                  fontSize: "0.9375rem", color: "#6b6b63",
-                  fontWeight: 300, lineHeight: 1.75, maxWidth: 320, marginBottom: "2.5rem",
+                <div style={{ width: 48, height: 2, background: "#2d5a3d", marginBottom: "1.75rem", borderRadius: 1 }} />
+                <p style={{
+                  fontSize: "0.9375rem", color: "#666",
+                  fontWeight: 300, lineHeight: 1.75, maxWidth: 340, marginBottom: "2.5rem",
                 }}>
                   Buy fresh produce directly from verified farmers near you — harvested and delivered within 24 hours.
                 </p>
-                <Link to="/register" style={{
-                  display: "inline-flex", alignItems: "center", gap: 10,
-                  fontSize: 11, fontWeight: 600, letterSpacing: "0.09em", textTransform: "uppercase",
-                  color: "#111009", textDecoration: "none",
-                  transition: "gap 0.3s ease",
-                }}
-                  onMouseOver={e => e.currentTarget.style.gap = "16px"}
-                  onMouseOut={e => e.currentTarget.style.gap = "10px"}
-                >
+                <Link to="/register" className="lp-pill lp-pill-dark" style={{ alignSelf: "flex-start" }}>
                   Start Shopping
-                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                   </svg>
                 </Link>
@@ -372,79 +341,91 @@ export default function Landing() {
             </Reveal>
 
             {/* Image */}
-            <div style={{
-              position: "relative", overflow: "hidden", minHeight: "60vh",
-              borderLeft: "1px solid #ddd8cf",
-            }}>
+            <div style={{ position: "relative", overflow: "hidden", minHeight: "55vh" }}>
               <div className="lp-row-img" style={{
                 position: "absolute", inset: 0,
                 backgroundImage: "url(/images/customer-hero.jpg)",
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                transition: "transform 1.1s cubic-bezier(0.25,0.46,0.45,0.94)",
+                backgroundSize: "cover", backgroundPosition: "center",
               }} />
             </div>
           </div>
-
         </section>
 
         {/* ══════════════════════════════════════════
-            §3  FEATURES + STATS
+            §3  FEATURES + STATS — Dark section
             ══════════════════════════════════════════ */}
-        <section style={{ background: "#111009", padding: "clamp(5rem, 9vw, 8rem) clamp(2rem, 7vw, 7rem)" }}>
+        <section style={{ background: "#111", padding: "clamp(5rem, 9vw, 8rem) clamp(2rem, 7vw, 7rem)" }}>
           <Reveal>
-            <div style={{ marginBottom: "4.5rem", display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: "1.5rem" }}>
+            <div style={{
+              marginBottom: "5rem", display: "flex", flexWrap: "wrap",
+              alignItems: "flex-end", justifyContent: "space-between", gap: "1.5rem",
+            }}>
               <div>
-                <span className="lp-sans" style={{
-                  fontSize: 10, letterSpacing: "0.45em", textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.25)", display: "block", marginBottom: "1rem",
+                <span style={{
+                  fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.2)", display: "block", marginBottom: "1.25rem", fontWeight: 500,
                 }}>Why AgriDirect</span>
-                <h2 className="lp-serif" style={{
-                  fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 300,
-                  lineHeight: 1.05, letterSpacing: "-0.02em", color: "#fff",
+                <h2 className="lp-section-title" style={{
+                  fontSize: "clamp(2.5rem, 5vw, 4.5rem)", fontWeight: 800,
+                  lineHeight: 1.05, letterSpacing: "-0.03em", color: "#fff",
                 }}>
                   Farm fresh,{" "}
-                  <em style={{ fontStyle: "italic", color: "#52b788" }}>fairly priced.</em>
+                  <span style={{ color: "#52b788" }}>fairly priced.</span>
                 </h2>
               </div>
-              <Link to="/register" style={{
-                fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase",
-                color: "rgba(255,255,255,0.3)", textDecoration: "none",
-                display: "flex", alignItems: "center", gap: 7, transition: "color 0.25s",
-              }}
-                onMouseOver={e => e.currentTarget.style.color = "#fff"}
-                onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.3)"}
-              >Join Now →</Link>
+              <Link to="/register" className="lp-pill lp-pill-ghost" style={{ fontSize: "0.75rem" }}>
+                Join Now
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(250px, 1fr))", gap: "0 2rem" }}>
+          {/* Feature rows */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "0 2.5rem" }}>
             {features.map((f, i) => (
               <Reveal key={i} delay={i * 120}>
-                <div className="lp-feat" style={{ borderTop: "1px solid rgba(255,255,255,0.1)", padding: "2.25rem 0", position: "relative", cursor: "default" }}>
-                  <div className="lp-feat-bar" style={{ position: "absolute", top: -1, left: 0, right: 0, height: 1, background: "#52b788" }} />
-                  <span className="lp-feat-num lp-serif" style={{
-                    fontSize: "clamp(2rem, 4vw, 3rem)", color: "rgba(255,255,255,0.1)",
-                    display: "block", marginBottom: "1.5rem", lineHeight: 1,
+                <div className="lp-feat" style={{
+                  borderTop: "1px solid rgba(255,255,255,0.08)",
+                  padding: "2.5rem 0", position: "relative", cursor: "default",
+                }}>
+                  <div className="lp-feat-bar" style={{
+                    position: "absolute", top: -1, left: 0, right: 0, height: 2, background: "#52b788", borderRadius: 1,
+                  }} />
+                  <span className="lp-feat-num" style={{
+                    fontSize: "clamp(2rem, 4vw, 3rem)", color: "rgba(255,255,255,0.08)",
+                    display: "block", marginBottom: "1.5rem", lineHeight: 1, fontWeight: 800,
                   }}>{f.num}</span>
-                  <h3 className="lp-sans" style={{ fontSize: "1rem", fontWeight: 600, color: "#fff", marginBottom: "0.65rem", letterSpacing: "-0.01em" }}>{f.title}</h3>
-                  <p className="lp-sans" style={{ fontSize: "0.875rem", color: "rgba(255,255,255,0.35)", lineHeight: 1.72, fontWeight: 300 }}>{f.desc}</p>
+                  <h3 style={{
+                    fontSize: "1rem", fontWeight: 700, color: "#fff",
+                    marginBottom: "0.65rem", letterSpacing: "-0.01em",
+                  }}>{f.title}</h3>
+                  <p style={{
+                    fontSize: "0.875rem", color: "rgba(255,255,255,0.35)",
+                    lineHeight: 1.72, fontWeight: 300,
+                  }}>{f.desc}</p>
                 </div>
               </Reveal>
             ))}
           </div>
 
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", margin: "5rem 0" }} />
+          {/* Divider */}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", margin: "5rem 0" }} />
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "2.5rem 1rem" }}>
+          {/* Stats */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))", gap: "3rem 1.5rem" }}>
             {stats.map((s, i) => (
               <Reveal key={i} delay={i * 90}>
                 <div>
-                  <div className="lp-serif" style={{
-                    fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 300,
-                    color: "#fff", letterSpacing: "-0.03em", lineHeight: 1, marginBottom: "0.5rem",
+                  <div style={{
+                    fontSize: "clamp(2.5rem, 5vw, 4rem)", fontWeight: 800,
+                    color: "#fff", letterSpacing: "-0.04em", lineHeight: 1, marginBottom: "0.5rem",
                   }}>{s.value}</div>
-                  <div className="lp-sans" style={{ fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(255,255,255,0.28)" }}>{s.label}</div>
+                  <div style={{
+                    fontSize: 10, letterSpacing: "0.35em", textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.25)", fontWeight: 500,
+                  }}>{s.label}</div>
                 </div>
               </Reveal>
             ))}
@@ -452,38 +433,74 @@ export default function Landing() {
         </section>
 
         {/* ══════════════════════════════════════════
-            §4  SHOP BY CATEGORY
+            §4  SHOP BY CATEGORY — No-gutter grid
             ══════════════════════════════════════════ */}
-        <section style={{ background: "#F7F3EC", padding: "clamp(5rem, 8vw, 7rem) clamp(2rem, 6vw, 6rem)" }}>
+        <section style={{ background: "#faf8f4", padding: "clamp(5rem, 8vw, 7rem) clamp(2rem, 6vw, 6rem)" }}>
           <Reveal>
-            <div style={{ marginBottom: "3rem", display: "flex", alignItems: "flex-end", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{
+              marginBottom: "3.5rem", display: "flex", alignItems: "flex-end",
+              justifyContent: "space-between", flexWrap: "wrap", gap: "1rem",
+            }}>
               <div>
-                <span className="lp-sans" style={{ fontSize: 10, letterSpacing: "0.45em", textTransform: "uppercase", color: "#9c9c94", display: "block", marginBottom: "0.875rem" }}>Browse</span>
-                <h2 className="lp-serif" style={{ fontSize: "clamp(2.25rem, 5vw, 4rem)", fontWeight: 300, letterSpacing: "-0.02em", lineHeight: 1, color: "#111009" }}>
-                  Shop by category.
+                <span style={{
+                  fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
+                  color: "#999", display: "block", marginBottom: "1rem", fontWeight: 500,
+                }}>Browse</span>
+                <h2 className="lp-section-title" style={{
+                  fontSize: "clamp(2.25rem, 5vw, 4rem)", fontWeight: 800,
+                  letterSpacing: "-0.03em", lineHeight: 1, color: "#111",
+                  textTransform: "lowercase",
+                }}>
+                  shop by category.
                 </h2>
               </div>
-              <Link to="/register" style={{
-                fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase",
-                color: "#9c9c94", textDecoration: "none", display: "flex", alignItems: "center", gap: 6, transition: "color 0.25s",
-              }}
-                onMouseOver={e => e.currentTarget.style.color = "#111009"}
-                onMouseOut={e => e.currentTarget.style.color = "#9c9c94"}
-              >View All →</Link>
+              <Link to="/register" className="lp-pill lp-pill-dark" style={{ fontSize: "0.75rem" }}>
+                View All
+                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                </svg>
+              </Link>
             </div>
           </Reveal>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1px", background: "#ddd8cf" }}>
+          {/* Card grid — no gutters */}
+          <div className="lp-cat-grid" style={{
+            display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "3px",
+          }}>
             {categories.map((cat, i) => (
               <Reveal key={i} delay={i * 80}>
-                <Link to={cat.link} className="lp-cat" style={{ position: "relative", display: "block", aspectRatio: "3/4", overflow: "hidden", textDecoration: "none", background: "#F7F3EC" }}>
-                  <div className="lp-cat-img" style={{ position: "absolute", inset: 0, backgroundImage: `url(${cat.img})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-                  <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.05) 55%, transparent 100%)" }} />
-                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1.5rem" }}>
-                    <p className="lp-sans" style={{ fontSize: 9, letterSpacing: "0.35em", textTransform: "uppercase", color: "rgba(255,255,255,0.4)", marginBottom: "0.35rem" }}>{cat.sub}</p>
-                    <h3 className="lp-sans" style={{ fontSize: "0.9375rem", fontWeight: 600, color: "#fff", letterSpacing: "-0.01em" }}>{cat.label}</h3>
-                    <span className="lp-cat-cta lp-sans" style={{ display: "inline-flex", alignItems: "center", gap: 5, marginTop: "0.5rem", fontSize: 10, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}>
-                      Shop Now →
+                <Link to={cat.link} className="lp-cat" style={{
+                  position: "relative", display: "block", aspectRatio: "3/4",
+                  overflow: "hidden", textDecoration: "none",
+                }}>
+                  <div className="lp-cat-img" style={{
+                    position: "absolute", inset: 0,
+                    backgroundImage: `url(${cat.img})`,
+                    backgroundSize: "cover", backgroundPosition: "center",
+                  }} />
+                  <div className="lp-cat-overlay" style={{
+                    position: "absolute", inset: 0,
+                    background: "linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.1) 50%, transparent 100%)",
+                    opacity: 0.75,
+                  }} />
+                  <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "1.75rem" }}>
+                    <p style={{
+                      fontSize: 9, letterSpacing: "0.4em", textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.4)", marginBottom: "0.4rem", fontWeight: 500,
+                    }}>{cat.sub}</p>
+                    <h3 style={{
+                      fontSize: "1rem", fontWeight: 700, color: "#fff", letterSpacing: "-0.01em",
+                    }}>{cat.label}</h3>
+                    <span className="lp-cat-cta" style={{
+                      display: "inline-flex", alignItems: "center", gap: 6,
+                      marginTop: "0.75rem", fontSize: 10, fontWeight: 600,
+                      letterSpacing: "0.08em", textTransform: "uppercase",
+                      color: "rgba(255,255,255,0.65)",
+                    }}>
+                      Shop Now
+                      <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                      </svg>
                     </span>
                   </div>
                 </Link>
@@ -492,77 +509,93 @@ export default function Landing() {
           </div>
         </section>
 
-        {/* ── Final CTA ── */}
-        <section style={{ background: "#111009", padding: "clamp(6rem, 10vw, 9rem) clamp(2rem, 6vw, 6rem)", textAlign: "center" }}>
+        {/* ══════════════════════════════════════════
+            §5  FINAL CTA
+            ══════════════════════════════════════════ */}
+        <section style={{
+          background: "#111", padding: "clamp(6rem, 10vw, 10rem) clamp(2rem, 6vw, 6rem)",
+          textAlign: "center",
+        }}>
           <Reveal>
-            <span className="lp-sans" style={{ fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase", color: "rgba(255,255,255,0.22)", display: "block", marginBottom: "1.5rem" }}>
+            <span style={{
+              fontSize: 10, letterSpacing: "0.5em", textTransform: "uppercase",
+              color: "rgba(255,255,255,0.18)", display: "block", marginBottom: "1.5rem", fontWeight: 500,
+            }}>
               Stay Connected
             </span>
-            <h2 className="lp-serif" style={{ fontSize: "clamp(3rem, 8vw, 7.5rem)", fontWeight: 300, letterSpacing: "-0.03em", lineHeight: 0.9, color: "#fff", marginBottom: "1.5rem" }}>
-              Grow with us.
+            <h2 className="lp-section-title" style={{
+              fontSize: "clamp(3.5rem, 9vw, 8rem)", fontWeight: 800,
+              letterSpacing: "-0.04em", lineHeight: 0.9, color: "#fff",
+              marginBottom: "1.5rem", textTransform: "lowercase",
+            }}>
+              grow with us.
             </h2>
-            <p className="lp-sans" style={{ fontSize: "0.9375rem", color: "rgba(255,255,255,0.32)", fontWeight: 300, maxWidth: 400, margin: "0 auto 3rem", lineHeight: 1.72 }}>
+            <p style={{
+              fontSize: "0.9375rem", color: "rgba(255,255,255,0.3)", fontWeight: 300,
+              maxWidth: 420, margin: "0 auto 3rem", lineHeight: 1.72,
+            }}>
               Join thousands of farmers and customers building a more direct, fair, and sustainable food chain.
             </p>
             <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <Link to="/register" style={{ background: "#fff", color: "#111009", padding: "0.9rem 2.5rem", fontSize: 11, fontWeight: 600, letterSpacing: "0.09em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.25s" }}
-                onMouseOver={e => e.currentTarget.style.background = "#e5e1d8"}
-                onMouseOut={e => e.currentTarget.style.background = "#fff"}
-              >Create Free Account</Link>
-              <Link to="/login" style={{ background: "transparent", color: "rgba(255,255,255,0.6)", padding: "0.9rem 2.5rem", fontSize: 11, fontWeight: 400, letterSpacing: "0.09em", textTransform: "uppercase", textDecoration: "none", border: "1px solid rgba(255,255,255,0.18)", transition: "border-color 0.25s, color 0.25s" }}
-                onMouseOver={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.5)"; e.currentTarget.style.color = "#fff"; }}
-                onMouseOut={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.18)"; e.currentTarget.style.color = "rgba(255,255,255,0.6)"; }}
-              >Sign In</Link>
+              <Link to="/register" className="lp-pill lp-pill-white">
+                Create Free Account
+              </Link>
+              <Link to="/login" className="lp-pill lp-pill-ghost">
+                Sign In
+              </Link>
             </div>
           </Reveal>
         </section>
 
-        {/* ── Footer ── */}
-        <footer style={{ background: "#0b0a08" }}>
-          <div style={{ padding: "2.5rem clamp(2rem, 6vw, 6rem)", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: "1.5rem", borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-            <span className="lp-serif" style={{ fontSize: "1.2rem", color: "#fff", letterSpacing: "-0.02em", fontWeight: 300 }}>AgriDirect</span>
-            <div style={{ display: "flex", gap: "2.5rem" }}>
-              {[["Join", "/register"], ["Login", "/login"], ["Explore", "#split"]].map(([label, href]) =>
+        {/* ══════════════════════════════════════════
+            §6  FOOTER with giant wordmark
+            ══════════════════════════════════════════ */}
+        <footer style={{ background: "#0a0a0a" }}>
+          {/* Top bar */}
+          <div style={{
+            padding: "2.5rem clamp(2rem, 6vw, 6rem)",
+            display: "flex", flexWrap: "wrap", alignItems: "center",
+            justifyContent: "space-between", gap: "1.5rem",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}>
+            <span style={{
+              fontSize: "1rem", color: "#fff",
+              letterSpacing: "-0.02em", fontWeight: 700,
+            }}>AgriDirect</span>
+
+            <div style={{ display: "flex", gap: "2rem" }}>
+              {[["Join", "/register"], ["Login", "/login"], ["Explore", "#explore"]].map(([label, href]) =>
                 href.startsWith("/")
-                  ? <Link key={label} to={href} style={{ fontSize: 10, letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(255,255,255,0.28)", textDecoration: "none", transition: "color 0.2s" }}
-                    onMouseOver={e => e.currentTarget.style.color = "#fff"}
-                    onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.28)"}
-                  >{label}</Link>
-                  : <a key={label} href={href} style={{ fontSize: 10, letterSpacing: "0.38em", textTransform: "uppercase", color: "rgba(255,255,255,0.28)", textDecoration: "none", transition: "color 0.2s" }}
-                    onMouseOver={e => e.currentTarget.style.color = "#fff"}
-                    onMouseOut={e => e.currentTarget.style.color = "rgba(255,255,255,0.28)"}
-                  >{label}</a>
+                  ? <Link key={label} to={href} className="lp-pill" style={{
+                    fontSize: 10, letterSpacing: "0.35em",
+                    color: "rgba(255,255,255,0.3)", textDecoration: "none",
+                    padding: "0.5rem 1rem", border: "1px solid rgba(255,255,255,0.1)",
+                  }}>{label}</Link>
+                  : <a key={label} href={href} className="lp-pill" style={{
+                    fontSize: 10, letterSpacing: "0.35em",
+                    color: "rgba(255,255,255,0.3)", textDecoration: "none",
+                    padding: "0.5rem 1rem", border: "1px solid rgba(255,255,255,0.1)",
+                  }}>{label}</a>
               )}
             </div>
-            <span className="lp-sans" style={{ fontSize: 11, color: "rgba(255,255,255,0.18)" }}>© {new Date().getFullYear()} AgriDirect. All rights reserved.</span>
+
+            <span style={{ fontSize: 11, color: "rgba(255,255,255,0.15)" }}>
+              © {new Date().getFullYear()} AgriDirect. All rights reserved.
+            </span>
           </div>
+
+          {/* Giant wordmark */}
           <div style={{ overflow: "hidden", width: "100%" }}>
-            <span
-              style={{
-                display: "block",
-                width: "100%",
-                textAlign: "center",
-
-                fontSize: "clamp(6rem, 16vw, 18rem)",
-                lineHeight: 1.1, // FIXED
-
-                letterSpacing: "0.02em",
-                color: "#e5e5e5", // slightly reduced brightness
-
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontWeight: 300,
-
-                paddingBottom: "0.15em", // 🔥 FIX FOR 'g'
-
-                userSelect: "none",
-                pointerEvents: "none",
-
-                textShadow: "none",
-
-                WebkitFontSmoothing: "antialiased",
-              }}
-            >
-              AgriDirect
+            <span style={{
+              display: "block", width: "100%", textAlign: "center",
+              fontSize: "clamp(6rem, 17vw, 19rem)",
+              lineHeight: 1.15, letterSpacing: "-0.03em",
+              color: "rgba(255,255,255,0.04)",
+              fontWeight: 900, textTransform: "lowercase",
+              paddingBottom: "0.1em",
+              userSelect: "none", pointerEvents: "none",
+            }}>
+              agridirect
             </span>
           </div>
         </footer>

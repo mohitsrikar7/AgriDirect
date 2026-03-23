@@ -9,6 +9,7 @@ const Navbar = () => {
   const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const profileRef = useRef(null);
 
   const isLanding = location.pathname === "/";
@@ -39,11 +40,8 @@ const Navbar = () => {
         setIsProfileOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleLogout = () => {
@@ -54,229 +52,182 @@ const Navbar = () => {
   const switchRole = (role) => {
     sessionStorage.setItem("activeRole", role);
     setActiveRole(role);
-
     if (role === "farmer") navigate("/farmer");
     if (role === "customer") navigate("/customer");
     if (role === "admin") navigate("/admin");
   };
+
   const handleBecomeCustomer = async () => {
     try {
-      const res = await api.post("/auth/add-role", {
-        role: "customer",
-      });
-
-      // Update auth context with new data
+      const res = await api.post("/auth/add-role", { role: "customer" });
       sessionStorage.setItem("token", res.data.token);
       sessionStorage.setItem("user", JSON.stringify(res.data.user));
-      sessionStorage.setItem(
-        "roles",
-        JSON.stringify(res.data.user.roles)
-      );
+      sessionStorage.setItem("roles", JSON.stringify(res.data.user.roles));
       sessionStorage.setItem("activeRole", "customer");
-
-      window.location.reload(); // refresh UI cleanly
-
+      window.location.reload();
     } catch (err) {
       alert(err.response?.data?.message || "Failed to add role");
     }
   };
-  let homeRoute = "/";
 
+  let homeRoute = "/";
   if (user && activeRole) {
     if (activeRole === "customer") homeRoute = "/customer";
     else if (activeRole === "farmer") homeRoute = "/farmer";
     else if (activeRole === "admin") homeRoute = "/admin";
   }
 
+  /* ── Pill style helpers ─────────────────────────── */
+  const pillBase = `
+    inline-flex items-center gap-2 rounded-full text-[13px] font-medium
+    transition-all duration-300 ease-out
+  `;
+
+  const navPill = scrolled
+    ? "bg-white/90 backdrop-blur-xl border border-gray-200/60 shadow-sm"
+    : isLanding
+      ? "bg-white/[0.08] backdrop-blur-xl border border-white/[0.12]"
+      : "bg-white/90 backdrop-blur-xl border border-gray-200/60 shadow-sm";
+
+  const textColor = scrolled
+    ? "text-gray-800"
+    : isLanding ? "text-white/90" : "text-gray-800";
+
+  const textHover = scrolled
+    ? "hover:text-[#2d5a3d]"
+    : isLanding ? "hover:text-white" : "hover:text-[#2d5a3d]";
+
+  /* ── Profile dropdown ─────────────────────────── */
+  const DropdownMenu = ({ children }) => (
+    <div className="absolute right-0 mt-2 w-52 bg-white/95 backdrop-blur-xl
+      rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-gray-100
+      py-2 z-50 animate-fade-in-up">
+      {children}
+    </div>
+  );
+
+  const DropdownItem = ({ to, onClick, danger, children }) => {
+    const cls = `block w-full text-left px-5 py-2.5 text-[13px] font-medium transition-colors
+      ${danger ? "text-red-500 hover:bg-red-50/80" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"}`;
+    if (to) return <Link to={to} onClick={onClick} className={cls}>{children}</Link>;
+    return <button onClick={onClick} className={cls}>{children}</button>;
+  };
+
+  const ProfileAvatar = ({ onClick }) => (
+    <button onClick={onClick} className={`flex items-center gap-2.5 ${pillBase} ${navPill} px-3 py-2`}>
+      <div className="w-7 h-7 bg-[#2d5a3d] text-white flex items-center justify-center
+        rounded-full text-xs font-bold tracking-tight">
+        {user?.name?.charAt(0).toUpperCase()}
+      </div>
+      <span className={`hidden md:block text-[13px] font-medium ${textColor}`}>
+        {user?.name}
+      </span>
+    </button>
+  );
+
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled
-          ? "bg-white/95 backdrop-blur-xl border-b border-gray-100 shadow-sm"
-          : "bg-transparent border-b-0"
-        }`}
-    >
-      <div className="max-w-7xl mx-auto px-8 py-4 flex justify-between items-center">
-        {/* Brand */}
-        <Link
-          to={homeRoute}
-          className={`text-2xl font-bold tracking-tight transition-colors duration-500 ${scrolled ? "text-gray-900" : isLanding ? "text-white" : "text-gray-900"
-            }`}
-        >
+    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500
+      ${scrolled ? "py-2.5" : "py-4"}`}>
+      <div className="max-w-[1440px] mx-auto px-5 md:px-8 flex items-center justify-between gap-3">
+
+        {/* ── Logo Pill ── */}
+        <Link to={homeRoute} className={`${pillBase} ${navPill} px-5 py-2.5 ${textColor} font-bold tracking-[-0.02em] text-[15px]`}>
           AgriDirect
         </Link>
 
-        <div className={`flex items-center gap-6 text-sm ${scrolled ? "text-gray-700" : isLanding ? "text-white/90" : "text-gray-700"
-          }`}>
+        {/* ── Center Nav Pills (customer links) ── */}
+        {user && activeRole === "customer" && (
+          <div className={`hidden md:flex ${pillBase} ${navPill} px-1.5 py-1.5 gap-0`}>
+            <Link to="/customer" className={`px-4 py-1.5 rounded-full ${textColor} ${textHover} transition-colors text-[13px] font-medium`}>
+              Marketplace
+            </Link>
+            <Link to="/customer/orders" className={`px-4 py-1.5 rounded-full ${textColor} ${textHover} transition-colors text-[13px] font-medium`}>
+              Orders
+            </Link>
+          </div>
+        )}
+
+        {/* ── Right-side Actions ── */}
+        <div className="flex items-center gap-2.5">
+
+          {/* Guest actions */}
           {!user && (
             <>
-              <Link to="/login" className={`hover:${scrolled ? 'text-green-600' : 'text-white'} transition font-medium`}>
+              <Link to="/login" className={`${pillBase} ${navPill} px-5 py-2.5 ${textColor} ${textHover}`}>
                 Login
               </Link>
-              <Link
-                to="/register"
-                className={`px-5 py-2 rounded-xl font-medium transition ${scrolled
-                    ? "bg-green-600 text-white hover:bg-green-700"
-                    : isLanding
-                      ? "bg-white text-[#1a1a1a] hover:bg-white/90"
-                      : "bg-green-600 text-white hover:bg-green-700"
-                  }`}
-              >
+              <Link to="/register" className={`${pillBase} px-5 py-2.5 font-semibold tracking-wide
+                ${scrolled
+                  ? "bg-[#1a1a1a] text-white border border-[#1a1a1a] hover:bg-[#333]"
+                  : isLanding
+                    ? "bg-white text-[#1a1a1a] border border-white hover:bg-white/90"
+                    : "bg-[#1a1a1a] text-white border border-[#1a1a1a] hover:bg-[#333]"
+                }`}>
                 Register
               </Link>
             </>
           )}
 
+          {/* Customer profile */}
           {user && activeRole === "customer" && (
-            <>
-              <Link to="/customer" className="hover:text-green-600">
-                Marketplace
-              </Link>
-
-              <Link to="/customer/orders" className="hover:text-green-600">
-                Orders
-              </Link>
-
-              <div ref={profileRef} className="relative">
-                <button
-                  onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-3"
-                >
-                  <div className="w-9 h-9 bg-green-600 text-white flex items-center justify-center rounded-full font-semibold">
-                    {user?.name?.charAt(0).toUpperCase()}
-                  </div>
-                  <span className="hidden md:block font-medium">
-                    {user?.name}
-                  </span>
-                </button>
-
-                {isProfileOpen && (
-                  <div className="absolute right-0 mt-3 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-2">
-                    <Link
-                      to="/customer/profile"
-                      className="block px-4 py-2 hover:bg-gray-50"
-                      onClick={() => setIsProfileOpen(false)}
-                    >
-                      Account
-                    </Link>
-
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 hover:bg-red-50 text-red-600"
-                    >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          {/* FARMER NAV */}
-          {user && activeRole === "farmer" && (
             <div ref={profileRef} className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-3 px-3 py-2 rounded-full hover:bg-green-50 transition"
-              >
-                <div className="w-9 h-9 bg-green-700 text-white flex items-center justify-center rounded-full font-semibold shadow">
-                  {user?.name?.charAt(0).toUpperCase()}
-                </div>
-                <span className="hidden md:block font-medium text-gray-700">
-                  {user?.name}
-                </span>
-              </button>
-
+              <ProfileAvatar onClick={() => setIsProfileOpen(!isProfileOpen)} />
               {isProfileOpen && (
-                <div className="absolute right-0 mt-3 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50">
-                  <Link
-                    to="/farmer"
-                    className="block px-4 py-2 hover:bg-gray-50 transition"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-
-                  <Link
-                    to="/farmer/profile"
-                    className="block px-4 py-2 hover:bg-gray-50 transition"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
-                    Account Details
-                  </Link>
-
-                  {user?.roles?.includes("customer") && (
-                    <button
-                      onClick={() => {
-                        setIsProfileOpen(false);
-                        switchRole("customer");
-                      }}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-50 transition"
-                    >
-                      Switch to Customer
-                    </button>
-                  )}
-
-                  {!user?.roles?.includes("customer") && (
-                    <button
-                      onClick={() => {
-                        setIsProfileOpen(false);
-                        handleBecomeCustomer();
-                      }}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-50 transition"
-                    >
-                      Become Customer
-                    </button>
-                  )}
-
-                  <button
-                    onClick={() => {
-                      setIsProfileOpen(false);
-                      handleLogout();
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 transition"
-                  >
+                <DropdownMenu>
+                  <DropdownItem to="/customer/profile" onClick={() => setIsProfileOpen(false)}>
+                    Account
+                  </DropdownItem>
+                  <DropdownItem onClick={handleLogout} danger>
                     Logout
-                  </button>
-                </div>
+                  </DropdownItem>
+                </DropdownMenu>
               )}
             </div>
           )}
 
-          {/* ADMIN NAV */}
+          {/* Farmer profile */}
+          {user && activeRole === "farmer" && (
+            <div ref={profileRef} className="relative">
+              <ProfileAvatar onClick={() => setIsProfileOpen(!isProfileOpen)} />
+              {isProfileOpen && (
+                <DropdownMenu>
+                  <DropdownItem to="/farmer" onClick={() => setIsProfileOpen(false)}>
+                    Dashboard
+                  </DropdownItem>
+                  <DropdownItem to="/farmer/profile" onClick={() => setIsProfileOpen(false)}>
+                    Account Details
+                  </DropdownItem>
+                  {user?.roles?.includes("customer") && (
+                    <DropdownItem onClick={() => { setIsProfileOpen(false); switchRole("customer"); }}>
+                      Switch to Customer
+                    </DropdownItem>
+                  )}
+                  {!user?.roles?.includes("customer") && (
+                    <DropdownItem onClick={() => { setIsProfileOpen(false); handleBecomeCustomer(); }}>
+                      Become Customer
+                    </DropdownItem>
+                  )}
+                  <DropdownItem onClick={() => { setIsProfileOpen(false); handleLogout(); }} danger>
+                    Logout
+                  </DropdownItem>
+                </DropdownMenu>
+              )}
+            </div>
+          )}
+
+          {/* Admin profile */}
           {user && activeRole === "admin" && (
             <div ref={profileRef} className="relative">
-              <button
-                onClick={() => setIsProfileOpen(!isProfileOpen)}
-                className="flex items-center gap-3 px-3 py-2 rounded-full hover:bg-green-50 transition"
-              >
-                <div className="w-9 h-9 bg-green-700 text-white flex items-center justify-center rounded-full font-semibold shadow">
-                  {user?.name?.charAt(0).toUpperCase()}
-                </div>
-                <span className="hidden md:block font-medium text-gray-700">
-                  {user?.name}
-                </span>
-              </button>
-
+              <ProfileAvatar onClick={() => setIsProfileOpen(!isProfileOpen)} />
               {isProfileOpen && (
-                <div className="absolute right-0 mt-3 w-52 bg-white rounded-2xl shadow-xl border border-gray-100 py-2 z-50">
-                  <Link
-                    to="/admin"
-                    className="block px-4 py-2 hover:bg-gray-50 transition"
-                    onClick={() => setIsProfileOpen(false)}
-                  >
+                <DropdownMenu>
+                  <DropdownItem to="/admin" onClick={() => setIsProfileOpen(false)}>
                     Dashboard
-                  </Link>
-
-                  <button
-                    onClick={() => {
-                      setIsProfileOpen(false);
-                      handleLogout();
-                    }}
-                    className="block w-full text-left px-4 py-2 hover:bg-red-50 text-red-600 transition"
-                  >
+                  </DropdownItem>
+                  <DropdownItem onClick={() => { setIsProfileOpen(false); handleLogout(); }} danger>
                     Logout
-                  </button>
-                </div>
+                  </DropdownItem>
+                </DropdownMenu>
               )}
             </div>
           )}
