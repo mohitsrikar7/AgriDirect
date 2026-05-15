@@ -122,7 +122,7 @@ const LocationPickerModal = ({ isOpen, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-      <div className="bg-white w-[600px] rounded-xl p-6 shadow-xl">
+      <div className="bg-white w-[600px] rounded-none p-6 shadow-xl">
         <h2 className="text-xl font-semibold mb-4">
           Select Delivery Location
         </h2>
@@ -146,7 +146,7 @@ const LocationPickerModal = ({ isOpen, onClose, onSave }) => {
         )}
 
         <div className="mt-4">
-          <p className="text-sm text-gray-600">Selected Address:</p>
+          <p className="text-sm text-gray-500">Selected Address:</p>
           <p className="text-sm font-medium">
             {address?.formattedAddress}
           </p>
@@ -177,7 +177,7 @@ const LocationPickerModal = ({ isOpen, onClose, onSave }) => {
                 );
               }
             }}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md"
+            className="px-4 py-2 bg-blue-600 text-white rounded-none"
           >
             Use Current Location
           </button>
@@ -185,14 +185,14 @@ const LocationPickerModal = ({ isOpen, onClose, onSave }) => {
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 border rounded-md"
+              className="px-4 py-2 border rounded-none"
             >
               Cancel
             </button>
 
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-green-600 text-white rounded-md"
+              className="px-4 py-2 bg-green-600 text-white rounded-none"
             >
               Save Location
             </button>

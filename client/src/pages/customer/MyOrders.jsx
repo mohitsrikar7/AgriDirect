@@ -6,7 +6,7 @@ import { CartContext } from "../../context/CartContext";
 /* ── status config ─────────────────────────────────────── */
 const STATUS_CFG = {
   placed: {
-    bg: "bg-surface", text: "text-brand-muted", dot: "bg-brand-muted",
+    bg: "bg-surface", text: "text-gray-500", dot: "bg-brand-muted",
     label: "Placed", step: 1, border: "border-l-brand-muted",
     icon: <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />,
   },
@@ -31,7 +31,7 @@ const PAYMENT_CFG = {
   pending: { bg: "bg-amber-50", text: "text-amber-700", label: "Pending" },
   paid: { bg: "bg-accent-muted", text: "text-accent", label: "Paid" },
   failed: { bg: "bg-red-50", text: "text-red-600", label: "Failed" },
-  refunded: { bg: "bg-surface", text: "text-brand-muted", label: "Refunded" },
+  refunded: { bg: "bg-surface", text: "text-gray-500", label: "Refunded" },
 };
 
 const METHOD_LABEL = { COD: "Cash on Delivery", UPI: "UPI", NET_BANKING: "Net Banking", CARD: "Card" };
@@ -82,7 +82,7 @@ const ProgressTracker = ({ order }) => {
 
   if (order.status === "cancelled") {
     return (
-      <div className="flex items-center gap-2 text-xs font-bold text-red-600 bg-red-50 rounded-lg px-3 py-2 uppercase tracking-wider">
+      <div className="flex items-center gap-2 text-xs font-bold text-red-600 bg-red-50 rounded-none px-3 py-2 uppercase tracking-wider">
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
         </svg>
@@ -100,8 +100,8 @@ const ProgressTracker = ({ order }) => {
         return (
           <div key={s.label} className="flex items-center flex-1">
             <div className="flex flex-col items-center flex-1">
-              <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold transition-all
-                ${done ? "bg-brand text-white" : "bg-surface text-brand-muted border border-border"}
+              <div className={`w-7 h-7 rounded-none flex items-center justify-center text-[10px] font-bold transition-all
+                ${done ? "bg-brand text-white" : "bg-surface text-gray-500 border border-gray-200"}
                 ${isActive ? "ring-4 ring-brand/10" : ""}`}>
                 {done ? (
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -109,18 +109,18 @@ const ProgressTracker = ({ order }) => {
                   </svg>
                 ) : stepNum}
               </div>
-              <span className={`text-[10px] mt-1 uppercase tracking-wider ${done ? "text-brand font-bold" : "text-brand-muted"}`}>
+              <span className={`text-[10px] mt-1 uppercase tracking-wider ${done ? "text-gray-900 font-bold" : "text-gray-500"}`}>
                 {s.label}
               </span>
               {/* Date under step */}
               {done && s.date && (
-                <span className="text-[9px] text-brand-muted font-light">
+                <span className="text-[9px] text-gray-500 font-light">
                   {new Date(s.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
                 </span>
               )}
             </div>
             {i < steps.length - 1 && (
-              <div className={`h-0.5 flex-1 rounded-full mx-1 -mt-5 transition-all ${stepNum < current ? "bg-brand" : "bg-border"}`} />
+              <div className={`h-0.5 flex-1 rounded-none mx-1 -mt-5 transition-all ${stepNum < current ? "bg-brand" : "bg-gray-200"}`} />
             )}
           </div>
         );
@@ -131,20 +131,20 @@ const ProgressTracker = ({ order }) => {
 
 /* ── skeleton loader ─────────────────────────────── */
 const OrderSkeleton = () => (
-  <div className="bg-white rounded-xl border border-border border-l-4 border-l-border p-6 animate-pulse">
+  <div className="bg-white rounded-none border border-gray-200 border-l-4 border-l-border p-6 animate-pulse">
     <div className="flex justify-between items-start mb-5">
       <div className="space-y-2">
-        <div className="h-4 w-28 bg-surface rounded-lg" />
-        <div className="h-3 w-40 bg-surface rounded-lg" />
+        <div className="h-4 w-28 bg-surface rounded-none" />
+        <div className="h-3 w-40 bg-surface rounded-none" />
       </div>
-      <div className="h-6 w-20 bg-surface rounded-full" />
+      <div className="h-6 w-20 bg-surface rounded-none" />
     </div>
-    <div className="h-px bg-border mb-4" />
+    <div className="h-px bg-gray-200 mb-4" />
     <div className="flex gap-3 mb-4">
-      <div className="w-12 h-12 bg-surface rounded-lg" />
+      <div className="w-12 h-12 bg-surface rounded-none" />
       <div className="space-y-2 flex-1">
-        <div className="h-3 w-32 bg-surface rounded-lg" />
-        <div className="h-3 w-24 bg-surface rounded-lg" />
+        <div className="h-3 w-32 bg-surface rounded-none" />
+        <div className="h-3 w-24 bg-surface rounded-none" />
       </div>
     </div>
   </div>
@@ -236,11 +236,11 @@ const MyOrders = () => {
     <div className="min-h-screen bg-surface">
 
       {/* ─── Hero ─── */}
-      <div className="bg-surface-light pt-28 pb-16 px-6 border-b border-border">
+      <div className="bg-gray-50 pt-28 pb-16 px-6 border-b border-gray-200">
         <div className="max-w-5xl mx-auto">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mb-2">Account</p>
-          <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight">My Orders</h1>
-          <p className="text-brand-muted mt-2 text-sm font-light">Track and manage all your purchases</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Account</p>
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">My Orders</h1>
+          <p className="text-gray-500 mt-2 text-sm font-light">Track and manage all your purchases</p>
 
           {/* Stats */}
           {!loading && orders.length > 0 && (
@@ -251,9 +251,9 @@ const MyOrders = () => {
                 { label: "Delivered", value: stats.delivered },
                 { label: "Total Spent", value: `₹${stats.totalSpent.toLocaleString()}` },
               ].map((s) => (
-                <div key={s.label} className="bg-white border border-border rounded-xl px-4 py-4">
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold">{s.label}</p>
-                  <p className="text-2xl font-black text-brand mt-1">{s.value}</p>
+                <div key={s.label} className="bg-white border border-gray-200 rounded-none px-4 py-4">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold">{s.label}</p>
+                  <p className="text-2xl font-black text-gray-900 mt-1">{s.value}</p>
                 </div>
               ))}
             </div>
@@ -270,19 +270,19 @@ const MyOrders = () => {
             {/* Top bar: search + sort */}
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <svg className="w-4 h-4 text-brand-muted absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 text-gray-500 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
                 <input
                   placeholder="Search by order ID, product name..."
                   value={search}
                   onChange={(e) => { setSearch(e.target.value); setVisibleCount(ORDERS_PER_PAGE); }}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-border rounded-lg text-xs text-brand
-                    placeholder:text-brand-muted focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-none text-xs text-gray-900
+                    placeholder:text-gray-500 focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all"
                 />
                 {search && (
                   <button onClick={() => setSearch("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-muted hover:text-brand transition">
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-900 transition">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -293,7 +293,7 @@ const MyOrders = () => {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value)}
-                  className="appearance-none bg-white border border-border rounded-lg text-xs font-bold text-brand
+                  className="appearance-none bg-white border border-gray-200 rounded-none text-xs font-bold text-gray-900
                     pl-3 pr-8 py-2.5 cursor-pointer outline-none focus:ring-2 focus:ring-brand/10 focus:border-brand transition-all uppercase tracking-wider"
                 >
                   <option value="newest">Newest First</option>
@@ -301,7 +301,7 @@ const MyOrders = () => {
                   <option value="highest">Highest Amount</option>
                   <option value="lowest">Lowest Amount</option>
                 </select>
-                <svg className="w-3.5 h-3.5 text-brand-muted absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-3.5 h-3.5 text-gray-500 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                 </svg>
               </div>
@@ -316,7 +316,7 @@ const MyOrders = () => {
                   className={`pill ${filter === f ? "pill-filled" : "pill-outline"} capitalize`}
                 >
                   {f === "all" ? "All Orders" : f}
-                  <span className={`ml-1.5 text-[10px] ${filter === f ? "text-white/60" : "text-brand-muted"}`}>
+                  <span className={`ml-1.5 text-[10px] ${filter === f ? "text-white/60" : "text-gray-500"}`}>
                     {f === "all" ? orders.length : orders.filter((o) => o.status === f).length}
                   </span>
                 </button>
@@ -325,7 +325,7 @@ const MyOrders = () => {
 
             {/* Results count */}
             {(search || filter !== "all") && (
-              <p className="text-[11px] text-brand-muted font-light">
+              <p className="text-[11px] text-gray-500 font-light">
                 Showing {processed.length} of {orders.length} orders
                 {search && <> matching "<span className="font-bold">{search}</span>"</>}
               </p>
@@ -335,7 +335,7 @@ const MyOrders = () => {
 
         {/* Reorder feedback toast */}
         {reorderFeedback && (
-          <div className="fixed bottom-6 right-6 z-50 bg-brand text-white px-5 py-3 rounded-full text-sm font-bold shadow-xl animate-bounce-in flex items-center gap-2">
+          <div className="fixed bottom-6 right-6 z-50 bg-brand text-white px-5 py-3 rounded-none text-sm font-bold shadow-xl animate-bounce-in flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
             </svg>
@@ -352,14 +352,14 @@ const MyOrders = () => {
 
         {/* Empty state */}
         {!loading && orders.length === 0 && (
-          <div className="bg-white rounded-xl border border-border py-20 text-center">
-            <div className="w-20 h-20 bg-surface border border-border rounded-2xl flex items-center justify-center mx-auto mb-5">
-              <svg className="w-10 h-10 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <div className="bg-white rounded-none border border-gray-200 py-20 text-center">
+            <div className="w-20 h-20 bg-surface border border-gray-200 rounded-none flex items-center justify-center mx-auto mb-5">
+              <svg className="w-10 h-10 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
             </div>
-            <h3 className="text-xl font-black text-brand mb-1">No orders yet</h3>
-            <p className="text-sm text-brand-muted mb-6 font-light">Start shopping to see your orders here</p>
+            <h3 className="text-xl font-black text-gray-900 mb-1">No orders yet</h3>
+            <p className="text-sm text-gray-500 mb-6 font-light">Start shopping to see your orders here</p>
             <button onClick={() => navigate("/customer")} className="pill pill-filled">
               Browse Marketplace
             </button>
@@ -368,8 +368,8 @@ const MyOrders = () => {
 
         {/* No filter results */}
         {!loading && orders.length > 0 && processed.length === 0 && (
-          <div className="bg-white rounded-xl border border-border py-14 text-center">
-            <p className="text-brand-muted text-sm font-light">
+          <div className="bg-white rounded-none border border-gray-200 py-14 text-center">
+            <p className="text-gray-500 text-sm font-light">
               No {filter !== "all" ? <span className="font-bold capitalize">{filter}</span> : ""} orders
               {search ? <> matching "<span className="font-bold">{search}</span>"</> : " found"}
             </p>
@@ -385,9 +385,9 @@ const MyOrders = () => {
               <div key={month}>
                 {/* Month separator */}
                 <div className="flex items-center gap-3 mb-4">
-                  <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted whitespace-nowrap">{month}</h2>
-                  <div className="h-px bg-border flex-1" />
-                  <span className="text-[10px] text-brand-muted font-light whitespace-nowrap">{monthOrders.length} order{monthOrders.length > 1 ? "s" : ""}</span>
+                  <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500 whitespace-nowrap">{month}</h2>
+                  <div className="h-px bg-gray-200 flex-1" />
+                  <span className="text-[10px] text-gray-500 font-light whitespace-nowrap">{monthOrders.length} order{monthOrders.length > 1 ? "s" : ""}</span>
                 </div>
 
                 <div className="space-y-4">
@@ -402,7 +402,7 @@ const MyOrders = () => {
 
                     return (
                       <div key={order._id}
-                        className={`bg-white rounded-xl border border-border border-l-4 ${cfg.border} overflow-hidden
+                        className={`bg-white rounded-none border border-gray-200 border-l-4 ${cfg.border} overflow-hidden
                           hover:shadow-md hover:shadow-brand/5 transition-all duration-300`}
                         style={{ animationDelay: `${idx * 60}ms` }}>
 
@@ -412,20 +412,20 @@ const MyOrders = () => {
                             <div className="flex-1 min-w-0">
                               {/* Order ID + badges */}
                               <div className="flex items-center gap-2 flex-wrap mb-1">
-                                <p className="text-sm font-bold text-brand">
+                                <p className="text-sm font-bold text-gray-900">
                                   #{order._id.slice(-8).toUpperCase()}
                                 </p>
-                                <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-[0.12em] ${cfg.bg} ${cfg.text}`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${cfg.dot}`} />
+                                <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-2.5 py-1 rounded-none uppercase tracking-[0.12em] ${cfg.bg} ${cfg.text}`}>
+                                  <span className={`w-1.5 h-1.5 rounded-none ${cfg.dot}`} />
                                   {cfg.label}
                                 </span>
-                                <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full ${payCfg.bg} ${payCfg.text}`}>
+                                <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-none ${payCfg.bg} ${payCfg.text}`}>
                                   {payCfg.label}
                                 </span>
                               </div>
 
                               {/* Date + payment method */}
-                              <div className="flex items-center gap-2 text-xs text-brand-muted font-light mt-1">
+                              <div className="flex items-center gap-2 text-xs text-gray-500 font-light mt-1">
                                 <span>
                                   {new Date(order.createdAt).toLocaleDateString("en-IN", {
                                     day: "numeric", month: "short", year: "numeric",
@@ -442,19 +442,19 @@ const MyOrders = () => {
 
                               {/* First item preview */}
                               <div className="mt-3 flex items-center gap-2">
-                                <div className="w-8 h-8 rounded-lg bg-surface border border-border flex items-center justify-center shrink-0">
-                                  <svg className="w-4 h-4 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                <div className="w-8 h-8 rounded-none bg-surface border border-gray-200 flex items-center justify-center shrink-0">
+                                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                                   </svg>
                                 </div>
                                 <div className="min-w-0">
-                                  <p className="text-xs font-semibold text-brand truncate">
+                                  <p className="text-xs font-semibold text-gray-900 truncate">
                                     {firstName} × {order.items[0]?.quantity || 1}
                                     {moreCount > 0 && (
-                                      <span className="text-brand-muted font-normal"> + {moreCount} more</span>
+                                      <span className="text-gray-500 font-normal"> + {moreCount} more</span>
                                     )}
                                   </p>
-                                  <p className="text-[10px] text-brand-muted font-light">
+                                  <p className="text-[10px] text-gray-500 font-light">
                                     {itemCount} total item{itemCount !== 1 ? "s" : ""}
                                   </p>
                                 </div>
@@ -463,9 +463,9 @@ const MyOrders = () => {
 
                             {/* Price */}
                             <div className="text-right shrink-0 sm:ml-4">
-                              <p className="text-xl font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</p>
+                              <p className="text-xl font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</p>
                               {eta && (
-                                <p className={`text-[10px] mt-1 font-medium ${order.status === "delivered" ? "text-accent" : "text-brand-muted"}`}>
+                                <p className={`text-[10px] mt-1 font-medium ${order.status === "delivered" ? "text-accent" : "text-gray-500"}`}>
                                   {eta}
                                 </p>
                               )}
@@ -481,7 +481,7 @@ const MyOrders = () => {
                         )}
 
                         {/* Actions + expandable items */}
-                        <div className="border-t border-border">
+                        <div className="border-t border-gray-200">
                           <div className="px-6 py-3 flex items-center justify-between">
                             {/* Left: actions */}
                             <div className="flex items-center gap-2">
@@ -507,7 +507,7 @@ const MyOrders = () => {
                             {/* Right: expand toggle */}
                             <button
                               onClick={() => setExpanded(isOpen ? null : order._id)}
-                              className="text-[11px] font-bold uppercase tracking-[0.15em] text-brand-muted hover:text-brand transition-colors flex items-center gap-1"
+                              className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500 hover:text-gray-900 transition-colors flex items-center gap-1"
                             >
                               {isOpen ? "Hide" : "Details"}
                               <svg className={`w-4 h-4 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
@@ -518,32 +518,32 @@ const MyOrders = () => {
                           </div>
 
                           {isOpen && (
-                            <div className="px-6 pb-5 space-y-3 border-t border-border pt-4">
+                            <div className="px-6 pb-5 space-y-3 border-t border-gray-200 pt-4">
                               {order.items.map((item) => (
-                                <div key={item._id} className="flex items-center justify-between bg-surface rounded-lg px-4 py-3">
+                                <div key={item._id} className="flex items-center justify-between bg-surface rounded-none px-4 py-3">
                                   <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 bg-white border border-border rounded-lg flex items-center justify-center flex-shrink-0">
-                                      <svg className="w-5 h-5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                    <div className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center flex-shrink-0">
+                                      <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                                       </svg>
                                     </div>
                                     <div>
-                                      <p className="text-sm font-bold text-brand">
+                                      <p className="text-sm font-bold text-gray-900">
                                         {item.product?.masterProduct?.name || "Product"}
                                       </p>
-                                      <p className="text-xs text-brand-muted font-light">
+                                      <p className="text-xs text-gray-500 font-light">
                                         {item.quantity} &times; ₹{Number(item.price).toLocaleString()}
                                       </p>
                                     </div>
                                   </div>
-                                  <span className="text-sm font-black text-brand">
+                                  <span className="text-sm font-black text-gray-900">
                                     ₹{(item.price * item.quantity).toLocaleString()}
                                   </span>
                                 </div>
                               ))}
-                              <div className="flex items-center justify-between pt-2 border-t border-border">
-                                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-brand-muted">Order Total</span>
-                                <span className="text-xl font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</span>
+                              <div className="flex items-center justify-between pt-2 border-t border-gray-200">
+                                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">Order Total</span>
+                                <span className="text-xl font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</span>
                               </div>
                             </div>
                           )}
@@ -566,7 +566,7 @@ const MyOrders = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
                   </svg>
                   Load More Orders
-                  <span className="text-[10px] text-brand-muted ml-1">
+                  <span className="text-[10px] text-gray-500 ml-1">
                     ({visible.length} of {processed.length})
                   </span>
                 </button>
@@ -575,7 +575,7 @@ const MyOrders = () => {
 
             {/* Showing count */}
             {!hasMore && processed.length > ORDERS_PER_PAGE && (
-              <p className="text-center text-[10px] text-brand-muted font-light pt-2">
+              <p className="text-center text-[10px] text-gray-500 font-light pt-2">
                 Showing all {processed.length} orders
               </p>
             )}

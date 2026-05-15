@@ -45,7 +45,7 @@ const Register = () => {
         backgroundImage: `url(${authHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        fontFamily: "'Outfit', system-ui, sans-serif",
+        fontFamily: "'Poppins', system-ui, sans-serif",
       }}
     >
       {/* Dark overlay */}
@@ -85,7 +85,7 @@ const Register = () => {
       <div className="w-full lg:w-2/5 flex items-center justify-center relative z-10 p-8">
 
         <div className="w-full max-w-md bg-white/[0.95] backdrop-blur-2xl p-10 md:p-12
-          rounded-[2rem] shadow-[0_24px_80px_rgba(0,0,0,0.25)]
+          rounded-none shadow-[0_24px_80px_rgba(0,0,0,0.25)]
           border border-white/50">
 
           <h2 style={{
@@ -108,9 +108,9 @@ const Register = () => {
               type="text"
               name="name"
               placeholder="Full Name"
-              className="w-full px-5 py-3.5 rounded-full text-sm
+              className="w-full px-5 py-3.5 rounded-none text-sm
                 bg-gray-50 border border-gray-200
-                focus:outline-none focus:ring-2 focus:ring-[#2d5a3d]/30 focus:border-[#2d5a3d]
+                focus:outline-none focus:ring-2 focus:ring-[#16A34A]/30 focus:border-[#16A34A]
                 transition-all placeholder:text-gray-400"
               style={{ fontWeight: 400 }}
               value={formData.name}
@@ -122,9 +122,9 @@ const Register = () => {
               type="email"
               name="email"
               placeholder="Email address"
-              className="w-full px-5 py-3.5 rounded-full text-sm
+              className="w-full px-5 py-3.5 rounded-none text-sm
                 bg-gray-50 border border-gray-200
-                focus:outline-none focus:ring-2 focus:ring-[#2d5a3d]/30 focus:border-[#2d5a3d]
+                focus:outline-none focus:ring-2 focus:ring-[#16A34A]/30 focus:border-[#16A34A]
                 transition-all placeholder:text-gray-400"
               style={{ fontWeight: 400 }}
               value={formData.email}
@@ -136,9 +136,9 @@ const Register = () => {
               type="password"
               name="password"
               placeholder="Password"
-              className="w-full px-5 py-3.5 rounded-full text-sm
+              className="w-full px-5 py-3.5 rounded-none text-sm
                 bg-gray-50 border border-gray-200
-                focus:outline-none focus:ring-2 focus:ring-[#2d5a3d]/30 focus:border-[#2d5a3d]
+                focus:outline-none focus:ring-2 focus:ring-[#16A34A]/30 focus:border-[#16A34A]
                 transition-all placeholder:text-gray-400"
               style={{ fontWeight: 400 }}
               value={formData.password}
@@ -161,12 +161,12 @@ const Register = () => {
                     key={r.value}
                     type="button"
                     onClick={() => setFormData({ ...formData, role: r.value })}
-                    className="flex-1 py-2.5 rounded-full text-xs font-semibold transition-all duration-300"
+                    className="flex-1 py-2.5 rounded-none text-xs font-semibold transition-all duration-300"
                     style={{
-                      background: formData.role === r.value ? "#1a1a1a" : "transparent",
+                      background: formData.role === r.value ? "#16A34A" : "transparent",
                       color: formData.role === r.value ? "#fff" : "#999",
                       border: formData.role === r.value
-                        ? "1.5px solid #1a1a1a"
+                        ? "1.5px solid #16A34A"
                         : "1.5px solid #e5e5e5",
                       letterSpacing: "0.04em",
                       textTransform: "uppercase",
@@ -180,15 +180,15 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-full font-semibold text-sm
+              className="w-full py-3.5 rounded-none font-semibold text-sm
                 transition-all duration-300 active:scale-[0.98]"
               style={{
-                background: "#1a1a1a", color: "#fff",
+                background: "#16A34A", color: "#fff",
                 letterSpacing: "0.04em", textTransform: "uppercase",
                 fontSize: "0.8125rem",
               }}
-              onMouseOver={e => e.currentTarget.style.background = "#333"}
-              onMouseOut={e => e.currentTarget.style.background = "#1a1a1a"}
+              onMouseOver={e => e.currentTarget.style.background = "#15803d"}
+              onMouseOut={e => e.currentTarget.style.background = "#16A34A"}
             >
               Create Account
             </button>
@@ -198,7 +198,7 @@ const Register = () => {
           <p className="text-sm text-center mt-8" style={{ color: "#999", fontWeight: 300 }}>
             Already have an account?{" "}
             <Link to="/login" style={{
-              color: "#2d5a3d", fontWeight: 600, textDecoration: "none",
+              color: "#16A34A", fontWeight: 600, textDecoration: "none",
             }}>
               Login
             </Link>

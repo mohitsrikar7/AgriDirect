@@ -33,12 +33,12 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
         >
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up"
+                className="w-full max-w-sm bg-white rounded-none shadow-2xl overflow-hidden animate-fade-in-up"
             >
                 {/* Header */}
                 <div style={{ backgroundColor: "#111" }} className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-none bg-white/10 flex items-center justify-center">
                             <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                             </svg>
@@ -60,7 +60,7 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
                     {onSwitchRole && (
                         <button
                             onClick={onSwitchRole}
-                            className="w-full py-3 rounded-full text-sm font-semibold
+                            className="w-full py-3 rounded-none text-sm font-semibold
                               bg-[#111] text-white hover:bg-[#333] transition-colors
                               flex items-center justify-center gap-2"
                         >
@@ -73,7 +73,7 @@ const FarmerOnlyModal = ({ isOpen, onClose, featureName, onSwitchRole }) => {
 
                     <button
                         onClick={onClose}
-                        className="w-full py-3 rounded-full text-sm font-semibold
+                        className="w-full py-3 rounded-none text-sm font-semibold
                           border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors"
                     >
                         Go Back
@@ -227,7 +227,7 @@ const Footer = () => {
                                         rel="noopener noreferrer"
                                         aria-label={`Visit us on ${social.label}`}
                                         title={social.label}
-                                        className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center
+                                        className="w-9 h-9 rounded-none border border-white/10 flex items-center justify-center
                                           hover:bg-white/10 hover:border-white/25 transition-all"
                                     >
                                         <svg className="w-3.5 h-3.5 fill-current text-white/40" viewBox="0 0 24 24">

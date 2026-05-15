@@ -7,29 +7,45 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Poppins', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         surface: {
-          DEFAULT: '#f5f5f0',
-          light: '#fafaf7',
+          DEFAULT: '#F9FAFB',
+          light: '#f5f5f0',
+          alt: '#F3F4F6',
           card: '#ffffff',
         },
         brand: {
-          DEFAULT: '#1a1a1a',
-          light: '#333333',
-          muted: '#6b6b63',
+          DEFAULT: '#16A34A',
+          light: '#22c55e',
+          dark: '#15803d',
+          muted: '#6b7280',
         },
         accent: {
-          DEFAULT: '#2d5a3d',
-          light: '#3a7550',
-          muted: '#e8f0eb',
-          dark: '#1d3d2a',
+          DEFAULT: '#F97316',
+          light: '#fb923c',
+          muted: '#fff7ed',
+          dark: '#ea580c',
         },
         border: {
-          DEFAULT: '#e8e8e3',
-          light: '#f0f0eb',
+          DEFAULT: '#e5e7eb',
+          light: '#f3f4f6',
         },
+      },
+      keyframes: {
+        'slide-up': {
+          from: { opacity: '0', transform: 'translateY(20px)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        shimmer: {
+          '0%': { backgroundPosition: '-400px 0' },
+          '100%': { backgroundPosition: '400px 0' },
+        },
+      },
+      animation: {
+        'slide-up': 'slide-up 0.4s ease-out',
+        shimmer: 'shimmer 1.5s infinite',
       },
     },
   },

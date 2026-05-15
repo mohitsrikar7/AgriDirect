@@ -7,33 +7,33 @@ import {
 
 /* ═══ Config maps ═══════════════════════════════════ */
 const STATUS_CFG = {
-  placed: { bg: "bg-surface", text: "text-brand-muted", dot: "bg-brand-muted", label: "Placed" },
+  placed: { bg: "bg-gray-50", text: "text-gray-600", dot: "bg-gray-400", label: "Placed" },
   confirmed: { bg: "bg-amber-50", text: "text-amber-700", dot: "bg-amber-400", label: "Confirmed" },
-  delivered: { bg: "bg-accent-muted", text: "text-accent", dot: "bg-accent", label: "Delivered" },
+  delivered: { bg: "bg-green-50", text: "text-green-700", dot: "bg-green-500", label: "Delivered" },
   cancelled: { bg: "bg-red-50", text: "text-red-600", dot: "bg-red-400", label: "Cancelled" },
 };
 
 const PAY_CFG = {
   pending: { bg: "bg-amber-50", text: "text-amber-700", label: "Pending" },
-  paid: { bg: "bg-accent-muted", text: "text-accent", label: "Paid" },
+  paid: { bg: "bg-green-50", text: "text-green-700", label: "Paid" },
   failed: { bg: "bg-red-50", text: "text-red-600", label: "Failed" },
-  refunded: { bg: "bg-surface", text: "text-brand-muted", label: "Refunded" },
+  refunded: { bg: "bg-gray-50", text: "text-gray-500", label: "Refunded" },
 };
 
 const METHOD_LABEL = { COD: "Cash on Delivery", UPI: "UPI", NET_BANKING: "Net Banking", CARD: "Card" };
 
-/* Neutral charcoal palette for charts */
-const CHART_LINE = "#1a1a1a";
-const CHART_BAR = "#1a1a1a";
-const PIE_COLORS = ["#1a1a1a", "#4a4a4a", "#8a8a8a", "#c4c4c4"];
+/* Green palette for charts */
+const CHART_LINE = "#16A34A";
+const CHART_BAR = "#16A34A";
+const PIE_COLORS = ["#16A34A", "#22c55e", "#86efac", "#d1fae5"];
 
 /* ═══ Tiny components ═══════════════════════════════ */
 const CustomTooltip = ({ active, payload, label, prefix = "" }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-border px-4 py-3">
-      <p className="text-[10px] text-brand-muted font-bold uppercase tracking-wider">{label}</p>
-      <p className="text-sm font-black text-brand mt-0.5">{prefix}{Number(payload[0].value).toLocaleString()}</p>
+    <div className="bg-white rounded-none shadow-lg border border-gray-200 px-4 py-3">
+      <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">{label}</p>
+      <p className="text-sm font-black text-gray-900 mt-0.5">{prefix}{Number(payload[0].value).toLocaleString()}</p>
     </div>
   );
 };
@@ -41,26 +41,26 @@ const CustomTooltip = ({ active, payload, label, prefix = "" }) => {
 const PieTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-white rounded-xl shadow-lg border border-border px-4 py-3">
-      <p className="text-[10px] text-brand-muted font-bold uppercase tracking-wider">{payload[0].name}</p>
-      <p className="text-sm font-black text-brand mt-0.5">{payload[0].value} orders</p>
+    <div className="bg-white rounded-none shadow-lg border border-gray-200 px-4 py-3">
+      <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">{payload[0].name}</p>
+      <p className="text-sm font-black text-gray-900 mt-0.5">{payload[0].value} orders</p>
     </div>
   );
 };
 
 const OrderSkeleton = () => (
-  <div className="bg-white rounded-xl border border-border p-5 animate-pulse">
+  <div className="bg-white rounded-none border border-gray-200 p-5 animate-pulse">
     <div className="flex justify-between mb-4">
       <div className="space-y-2">
-        <div className="h-4 w-32 bg-border rounded-full" />
-        <div className="h-3 w-48 bg-border-light rounded-full" />
+        <div className="h-4 w-32 bg-gray-200 rounded-none" />
+        <div className="h-3 w-48 bg-gray-200-light rounded-none" />
       </div>
-      <div className="h-6 w-20 bg-border rounded-full" />
+      <div className="h-6 w-20 bg-gray-200 rounded-none" />
     </div>
-    <div className="h-px bg-border mb-3" />
+    <div className="h-px bg-gray-200 mb-3" />
     <div className="space-y-2">
-      <div className="h-3 w-40 bg-border-light rounded-full" />
-      <div className="h-3 w-36 bg-border-light rounded-full" />
+      <div className="h-3 w-40 bg-gray-200-light rounded-none" />
+      <div className="h-3 w-36 bg-gray-200-light rounded-none" />
     </div>
   </div>
 );
@@ -154,19 +154,19 @@ const AdminDashboard = () => {
     });
 
   return (
-    <div className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-gray-50">
 
       {/* ─────── HEADER — Rains-style neutral ─────── */}
-      <div className="bg-surface-light pt-28 pb-14 px-6 lg:px-10 border-b border-border">
+      <div className="bg-white pt-28 pb-14 px-6 lg:px-10 border-b border-gray-200">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
             <div>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mb-2">Admin Panel</p>
-              <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight">Dashboard</h1>
-              <p className="text-brand-muted mt-2 text-sm font-light">Monitor sales, manage orders, track users & performance</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Admin Panel</p>
+              <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">Dashboard</h1>
+              <p className="text-gray-500 mt-2 text-sm font-light">Monitor sales, manage orders, track users & performance</p>
             </div>
             <span className="pill pill-outline text-[10px] self-start md:self-auto">
-              <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
+              <span className="w-1.5 h-1.5 bg-green-500 rounded-none animate-pulse" />
               System Operational
             </span>
           </div>
@@ -195,12 +195,12 @@ const AdminDashboard = () => {
                 icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
               },
             ].map((c) => (
-              <div key={c.label} className="bg-white rounded-xl border border-border p-5">
-                <span className="w-9 h-9 rounded-xl bg-surface border border-border flex items-center justify-center mb-3">
-                  <svg className="w-4.5 h-4.5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>{c.icon}</svg>
+              <div key={c.label} className="bg-white rounded-none border border-gray-200 p-5">
+                <span className="w-9 h-9 rounded-none bg-green-50 border border-green-100 flex items-center justify-center mb-3">
+                  <svg className="w-4.5 h-4.5 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>{c.icon}</svg>
                 </span>
-                <p className="text-[10px] uppercase tracking-[0.15em] text-brand-muted font-bold">{c.label}</p>
-                <p className="text-2xl font-black text-brand mt-1">{c.value}</p>
+                <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500 font-bold">{c.label}</p>
+                <p className="text-2xl font-black text-gray-900 mt-1">{c.value}</p>
               </div>
             ))}
           </div>
@@ -211,15 +211,15 @@ const AdminDashboard = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-8 space-y-6">
 
         {/* Tab bar — pill style */}
-        <div className="bg-white rounded-xl border border-border p-1.5 flex gap-1">
+        <div className="bg-white rounded-none border border-gray-200 p-1.5 flex gap-1">
           {[
             { key: "overview", label: "Overview", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" /> },
             { key: "orders", label: "Orders", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /> },
             { key: "users", label: "Users", icon: <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" /> },
           ].map((tab) => (
             <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all flex-1 justify-center
-                ${activeTab === tab.key ? "bg-brand text-white" : "text-brand-muted hover:bg-surface hover:text-brand"}`}>
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-none text-xs font-bold uppercase tracking-wider transition-all flex-1 justify-center
+                ${activeTab === tab.key ? "bg-brand text-white" : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"}`}>
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>{tab.icon}</svg>
               {tab.label}
             </button>
@@ -232,9 +232,9 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
               {/* Revenue Line Chart */}
-              <div className="bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Revenue Trend</h3>
+              <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Revenue Trend</h3>
                 </div>
                 <div className="p-6">
                   {analytics.monthlyRevenue.length > 0 ? (
@@ -250,15 +250,15 @@ const AdminDashboard = () => {
                       </LineChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="h-[260px] flex items-center justify-center text-sm text-brand-muted font-light">No revenue data yet</div>
+                    <div className="h-[260px] flex items-center justify-center text-sm text-gray-500 font-light">No revenue data yet</div>
                   )}
                 </div>
               </div>
 
               {/* Order Status Bar Chart */}
-              <div className="bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Order Status</h3>
+              <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Order Status</h3>
                 </div>
                 <div className="p-6">
                   {analytics.orderStatus.length > 0 ? (
@@ -272,7 +272,7 @@ const AdminDashboard = () => {
                       </BarChart>
                     </ResponsiveContainer>
                   ) : (
-                    <div className="h-[260px] flex items-center justify-center text-sm text-brand-muted font-light">No order data yet</div>
+                    <div className="h-[260px] flex items-center justify-center text-sm text-gray-500 font-light">No order data yet</div>
                   )}
                 </div>
               </div>
@@ -282,9 +282,9 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
               {/* Payment Method Pie */}
-              <div className="bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Payment Methods</h3>
+              <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Payment Methods</h3>
                 </div>
                 <div className="p-6">
                   {payMethodDist.length > 0 ? (
@@ -301,40 +301,40 @@ const AdminDashboard = () => {
                       </ResponsiveContainer>
                       <div className="flex flex-wrap justify-center gap-3 mt-2">
                         {payMethodDist.map((d, i) => (
-                          <div key={d.name} className="flex items-center gap-1.5 text-xs text-brand-muted">
-                            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
+                          <div key={d.name} className="flex items-center gap-1.5 text-xs text-gray-500">
+                            <span className="w-2.5 h-2.5 rounded-none" style={{ backgroundColor: PIE_COLORS[i % PIE_COLORS.length] }} />
                             {d.name} ({d.value})
                           </div>
                         ))}
                       </div>
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-brand-muted font-light">No data yet</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-gray-500 font-light">No data yet</div>
                   )}
                 </div>
               </div>
 
               {/* Recent Activity */}
-              <div className="lg:col-span-2 bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Recent Activity</h3>
+              <div className="lg:col-span-2 bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Recent Activity</h3>
                 </div>
                 <div className="p-4 max-h-[340px] overflow-y-auto">
                   {recentActivity.length > 0 ? (
                     <div className="space-y-1">
                       {recentActivity.map((a, i) => (
-                        <div key={i} className="flex items-start gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition-colors">
-                          <div className="w-8 h-8 rounded-full bg-surface border border-border flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg className="w-3.5 h-3.5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <div key={i} className="flex items-start gap-3 px-3 py-2.5 rounded-none hover:bg-gray-50 transition-colors">
+                          <div className="w-8 h-8 rounded-none bg-gray-50 border border-gray-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg className="w-3.5 h-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                             </svg>
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm text-brand truncate">{a.message}</p>
-                            <p className="text-[10px] text-brand-muted mt-0.5 font-light">{timeAgo(a.time)}</p>
+                            <p className="text-sm text-gray-900 truncate">{a.message}</p>
+                            <p className="text-[10px] text-gray-500 mt-0.5 font-light">{timeAgo(a.time)}</p>
                           </div>
                           {a.type === "order" && a.status && (
-                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${STATUS_CFG[a.status]?.bg} ${STATUS_CFG[a.status]?.text}`}>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-none ${STATUS_CFG[a.status]?.bg} ${STATUS_CFG[a.status]?.text}`}>
                               {STATUS_CFG[a.status]?.label}
                             </span>
                           )}
@@ -342,7 +342,7 @@ const AdminDashboard = () => {
                       ))}
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-brand-muted font-light">No recent activity</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-gray-500 font-light">No recent activity</div>
                   )}
                 </div>
               </div>
@@ -350,57 +350,57 @@ const AdminDashboard = () => {
 
             {/* Third row: Farmer Leaderboard + Top Products */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border flex items-center justify-between">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Farmer Sales Leaderboard</h3>
+              <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Farmer Sales Leaderboard</h3>
                   <span className="pill pill-outline text-[10px]">{farmerSales.length} farmers</span>
                 </div>
                 <div className="p-4">
                   {farmerSales.length > 0 ? (
                     <div className="space-y-1">
                       {farmerSales.sort((a, b) => b.totalRevenue - a.totalRevenue).slice(0, 8).map((f, i) => (
-                        <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition-colors">
-                          <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold flex-shrink-0 border
-                            ${i < 3 ? "bg-brand text-white border-brand" : "bg-surface text-brand-muted border-border"}`}>
+                        <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-none hover:bg-gray-50 transition-colors">
+                          <span className={`w-7 h-7 rounded-none flex items-center justify-center text-[10px] font-bold flex-shrink-0 border
+                            ${i < 3 ? "bg-brand text-white border-brand" : "bg-gray-50 text-gray-500 border-gray-200"}`}>
                             {i + 1}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-brand truncate">{f.farmer}</p>
-                            <p className="text-[10px] text-brand-muted font-light">{f.totalOrders} order{f.totalOrders !== 1 ? "s" : ""}</p>
+                            <p className="text-sm font-bold text-gray-900 truncate">{f.farmer}</p>
+                            <p className="text-[10px] text-gray-500 font-light">{f.totalOrders} order{f.totalOrders !== 1 ? "s" : ""}</p>
                           </div>
-                          <span className="text-sm font-black text-brand">₹{Number(f.totalRevenue).toLocaleString()}</span>
+                          <span className="text-sm font-black text-gray-900">₹{Number(f.totalRevenue).toLocaleString()}</span>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-brand-muted font-light">No farmer sales data</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-gray-500 font-light">No farmer sales data</div>
                   )}
                 </div>
               </div>
 
-              <div className="bg-white rounded-xl border border-border overflow-hidden">
-                <div className="px-6 py-4 border-b border-border">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Top Selling Products</h3>
+              <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Top Selling Products</h3>
                 </div>
                 <div className="p-4">
                   {topProducts.length > 0 ? (
                     <div className="space-y-1">
                       {topProducts.slice(0, 8).map((p, i) => (
-                        <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface transition-colors">
-                          <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-[10px] font-bold flex-shrink-0 border
-                            ${i < 3 ? "bg-brand text-white border-brand" : "bg-surface text-brand-muted border-border"}`}>
+                        <div key={i} className="flex items-center gap-3 px-3 py-2.5 rounded-none hover:bg-gray-50 transition-colors">
+                          <span className={`w-7 h-7 rounded-none flex items-center justify-center text-[10px] font-bold flex-shrink-0 border
+                            ${i < 3 ? "bg-brand text-white border-brand" : "bg-gray-50 text-gray-500 border-gray-200"}`}>
                             {i + 1}
                           </span>
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-bold text-brand truncate">{p.productName}</p>
-                            <p className="text-[10px] text-brand-muted font-light">by {p.farmerName} · {p.totalQty} units · {p.orderCount} orders</p>
+                            <p className="text-sm font-bold text-gray-900 truncate">{p.productName}</p>
+                            <p className="text-[10px] text-gray-500 font-light">by {p.farmerName} · {p.totalQty} units · {p.orderCount} orders</p>
                           </div>
-                          <span className="text-sm font-black text-brand">₹{Number(p.totalRevenue).toLocaleString()}</span>
+                          <span className="text-sm font-black text-gray-900">₹{Number(p.totalRevenue).toLocaleString()}</span>
                         </div>
                       ))}
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-brand-muted font-light">No product data yet</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-gray-500 font-light">No product data yet</div>
                   )}
                 </div>
               </div>
@@ -410,19 +410,19 @@ const AdminDashboard = () => {
 
         {/* ═══════════ TAB: ORDERS ═══════════ */}
         {activeTab === "orders" && (
-          <div className="bg-white rounded-xl border border-border overflow-hidden">
-            <div className="px-6 py-4 border-b border-border">
+          <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">All Orders</h3>
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">All Orders</h3>
                   <span className="pill pill-outline text-[10px]">{orders.length}</span>
                 </div>
                 <div className="relative">
-                  <svg className="w-4 h-4 text-brand-muted absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
                   <input placeholder="Search by ID, name or email..." value={search} onChange={(e) => setSearch(e.target.value)}
-                    className="pl-9 pr-4 py-2 border border-border rounded-lg text-xs w-64 focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all bg-surface" />
+                    className="pl-9 pr-4 py-2 border border-gray-200 rounded-none text-xs w-64 focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all bg-gray-50" />
                 </div>
               </div>
               <div className="flex flex-wrap gap-1 mt-3">
@@ -442,7 +442,7 @@ const AdminDashboard = () => {
 
               {!loading && filteredOrders.length === 0 && (
                 <div className="py-16 text-center">
-                  <p className="text-sm text-brand-muted font-light">No orders found</p>
+                  <p className="text-sm text-gray-500 font-light">No orders found</p>
                 </div>
               )}
 
@@ -454,29 +454,29 @@ const AdminDashboard = () => {
                 const isCODPending = order.paymentMethod === "COD" && order.status !== "delivered";
 
                 return (
-                  <div key={order._id} className="hover:bg-surface/50 transition-colors">
+                  <div key={order._id} className="hover:bg-gray-50/50 transition-colors">
                     <div className="px-6 py-4">
                       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
                         <div className="flex items-start gap-3 min-w-0 flex-1">
-                          <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${cfg.bg} ${cfg.text}`}>
+                          <div className={`w-9 h-9 rounded-none flex items-center justify-center flex-shrink-0 mt-0.5 ${cfg.bg} ${cfg.text}`}>
                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                             </svg>
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <p className="text-sm font-bold text-brand">#{order._id.slice(-8).toUpperCase()}</p>
-                              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${cfg.bg} ${cfg.text}`}>
-                                <span className={`w-1 h-1 rounded-full ${cfg.dot}`} />{cfg.label}
+                              <p className="text-sm font-bold text-gray-900">#{order._id.slice(-8).toUpperCase()}</p>
+                              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-none uppercase tracking-wider ${cfg.bg} ${cfg.text}`}>
+                                <span className={`w-1 h-1 rounded-none ${cfg.dot}`} />{cfg.label}
                               </span>
-                              <span className={`inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full ${payCfg.bg} ${payCfg.text}`}>
+                              <span className={`inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-none ${payCfg.bg} ${payCfg.text}`}>
                                 {payCfg.label}
                               </span>
                               {isCODPending && (
-                                <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-600 uppercase tracking-wider">COD</span>
+                                <span className="inline-flex items-center text-[10px] font-bold px-2 py-0.5 rounded-none bg-amber-50 text-amber-600 uppercase tracking-wider">COD</span>
                               )}
                             </div>
-                            <div className="flex items-center gap-3 mt-1 text-xs text-brand-muted font-light">
+                            <div className="flex items-center gap-3 mt-1 text-xs text-gray-500 font-light">
                               <span>{new Date(order.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}</span>
                               <span className="text-border">|</span>
                               <span>{order.customer?.name || "Unknown"}</span>
@@ -489,16 +489,16 @@ const AdminDashboard = () => {
                         </div>
 
                         <div className="flex items-center gap-3 flex-shrink-0">
-                          <span className="text-base font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</span>
+                          <span className="text-base font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</span>
                           <div className="relative">
                             <select value={order.status} onChange={(e) => updateStatus(order._id, e.target.value)}
-                              className="appearance-none bg-surface hover:bg-border-light border border-border text-xs font-bold text-brand pl-3 pr-7 py-2 rounded-lg cursor-pointer transition-colors outline-none uppercase tracking-wider">
+                              className="appearance-none bg-gray-50 hover:bg-gray-200-light border border-gray-200 text-xs font-bold text-gray-900 pl-3 pr-7 py-2 rounded-none cursor-pointer transition-colors outline-none uppercase tracking-wider">
                               <option value="placed">Placed</option>
                               <option value="confirmed">Confirmed</option>
                               <option value="delivered">Delivered</option>
                               <option value="cancelled">Cancelled</option>
                             </select>
-                            <svg className="w-3 h-3 text-brand-muted absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <svg className="w-3 h-3 text-gray-500 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                             </svg>
                           </div>
@@ -512,8 +512,8 @@ const AdminDashboard = () => {
                             </button>
                           )}
                           <button onClick={() => setExpanded(isOpen ? null : order._id)}
-                            className="w-8 h-8 rounded-lg bg-surface border border-border hover:bg-border-light flex items-center justify-center transition-colors">
-                            <svg className={`w-4 h-4 text-brand-muted transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            className="w-8 h-8 rounded-none bg-gray-50 border border-gray-200 hover:bg-gray-200-light flex items-center justify-center transition-colors">
+                            <svg className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                             </svg>
                           </button>
@@ -521,32 +521,32 @@ const AdminDashboard = () => {
                       </div>
 
                       {isOpen && (
-                        <div className="mt-4 bg-surface rounded-xl border border-border p-4">
+                        <div className="mt-4 bg-gray-50 rounded-none border border-gray-200 p-4">
                           <div className="flex items-center gap-2 mb-3">
-                            <p className="text-[10px] font-bold text-brand-muted uppercase tracking-[0.15em]">Order Items</p>
-                            {order.customer?.email && <span className="text-[10px] text-brand-muted font-light ml-auto">{order.customer.email}</span>}
+                            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.15em]">Order Items</p>
+                            {order.customer?.email && <span className="text-[10px] text-gray-500 font-light ml-auto">{order.customer.email}</span>}
                           </div>
                           <div className="space-y-2">
                             {order.items.map((item) => (
-                              <div key={item._id} className="flex items-center justify-between bg-white rounded-lg border border-border px-4 py-3">
+                              <div key={item._id} className="flex items-center justify-between bg-white rounded-none border border-gray-200 px-4 py-3">
                                 <div className="flex items-center gap-3">
-                                  <div className="w-8 h-8 bg-surface border border-border rounded-lg flex items-center justify-center">
-                                    <svg className="w-4 h-4 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                                  <div className="w-8 h-8 bg-gray-50 border border-gray-200 rounded-none flex items-center justify-center">
+                                    <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                                     </svg>
                                   </div>
                                   <div>
-                                    <p className="text-sm font-bold text-brand">{item.product?.masterProduct?.name || "Product"}</p>
-                                    <p className="text-[10px] text-brand-muted font-light">{item.quantity} &times; ₹{Number(item.price).toLocaleString()}</p>
+                                    <p className="text-sm font-bold text-gray-900">{item.product?.masterProduct?.name || "Product"}</p>
+                                    <p className="text-[10px] text-gray-500 font-light">{item.quantity} &times; ₹{Number(item.price).toLocaleString()}</p>
                                   </div>
                                 </div>
-                                <span className="text-sm font-black text-brand">₹{(item.price * item.quantity).toLocaleString()}</span>
+                                <span className="text-sm font-black text-gray-900">₹{(item.price * item.quantity).toLocaleString()}</span>
                               </div>
                             ))}
                           </div>
-                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
-                            <span className="text-[10px] font-bold text-brand-muted uppercase tracking-wider">Order Total</span>
-                            <span className="text-lg font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</span>
+                          <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
+                            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Order Total</span>
+                            <span className="text-lg font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</span>
                           </div>
                         </div>
                       )}
@@ -560,19 +560,19 @@ const AdminDashboard = () => {
 
         {/* ═══════════ TAB: USERS ═══════════ */}
         {activeTab === "users" && (
-          <div className="bg-white rounded-xl border border-border overflow-hidden">
-            <div className="px-6 py-4 border-b border-border">
+          <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">All Users</h3>
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">All Users</h3>
                   <span className="pill pill-outline text-[10px]">{users.length}</span>
                 </div>
                 <div className="relative">
-                  <svg className="w-4 h-4 text-brand-muted absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-4 h-4 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                   </svg>
                   <input placeholder="Search users..." value={userSearch} onChange={(e) => setUserSearch(e.target.value)}
-                    className="pl-9 pr-4 py-2 border border-border rounded-lg text-xs w-56 focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all bg-surface" />
+                    className="pl-9 pr-4 py-2 border border-gray-200 rounded-none text-xs w-56 focus:ring-2 focus:ring-brand/10 focus:border-brand outline-none transition-all bg-gray-50" />
                 </div>
               </div>
               <div className="flex flex-wrap gap-1 mt-3">
@@ -595,42 +595,42 @@ const AdminDashboard = () => {
             <div className="divide-y divide-border">
               {filteredUsers.length === 0 && (
                 <div className="py-16 text-center">
-                  <p className="text-sm text-brand-muted font-light">No users found</p>
+                  <p className="text-sm text-gray-500 font-light">No users found</p>
                 </div>
               )}
 
               {filteredUsers.map((u) => {
                 const roleCfg = {
-                  farmer: { bg: "bg-accent-muted", text: "text-accent" },
-                  customer: { bg: "bg-surface", text: "text-brand-muted" },
+                  farmer: { bg: "bg-green-50", text: "text-green-600" },
+                  customer: { bg: "bg-gray-50", text: "text-gray-500" },
                   admin: { bg: "bg-brand", text: "text-white" },
                 };
 
                 return (
-                  <div key={u._id} className="px-6 py-4 hover:bg-surface/50 transition-colors">
+                  <div key={u._id} className="px-6 py-4 hover:bg-gray-50/50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center flex-shrink-0">
-                        <span className="text-sm font-bold text-brand-muted">{u.name?.charAt(0)?.toUpperCase() || "?"}</span>
+                      <div className="w-10 h-10 rounded-none bg-gray-50 border border-gray-200 flex items-center justify-center flex-shrink-0">
+                        <span className="text-sm font-bold text-gray-500">{u.name?.charAt(0)?.toUpperCase() || "?"}</span>
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <p className="text-sm font-bold text-brand">{u.name}</p>
+                          <p className="text-sm font-bold text-gray-900">{u.name}</p>
                           {u.roles.map((r) => (
-                            <span key={r} className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${roleCfg[r]?.bg || "bg-surface"} ${roleCfg[r]?.text || "text-brand-muted"}`}>
+                            <span key={r} className={`text-[10px] font-bold px-2 py-0.5 rounded-none uppercase tracking-wider ${roleCfg[r]?.bg || "bg-gray-50"} ${roleCfg[r]?.text || "text-gray-500"}`}>
                               {r}
                             </span>
                           ))}
                         </div>
-                        <p className="text-xs text-brand-muted mt-0.5 font-light">{u.email}</p>
+                        <p className="text-xs text-gray-500 mt-0.5 font-light">{u.email}</p>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="text-[10px] text-brand-muted uppercase tracking-wider font-bold">Joined</p>
-                        <p className="text-xs font-semibold text-brand">
+                        <p className="text-[10px] text-gray-500 uppercase tracking-wider font-bold">Joined</p>
+                        <p className="text-xs font-semibold text-gray-900">
                           {new Date(u.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}
                         </p>
                       </div>
                       {u.addresses?.length > 0 && (
-                        <div className="flex items-center gap-1 text-xs text-brand-muted flex-shrink-0">
+                        <div className="flex items-center gap-1 text-xs text-gray-500 flex-shrink-0">
                           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />

@@ -165,18 +165,18 @@ const Payment = () => {
     <div className="min-h-screen bg-surface">
 
       {/* ── Header — Rains-style neutral ── */}
-      <div className="bg-surface-light pt-28 pb-14 px-6 border-b border-border">
+      <div className="bg-gray-50 pt-28 pb-14 px-6 border-b border-gray-200">
         <div className="max-w-3xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-brand rounded-xl mb-4">
+          <div className="inline-flex items-center justify-center w-12 h-12 bg-brand rounded-none mb-4">
             <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
             </svg>
           </div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mb-2">Checkout</p>
-          <h1 className="text-3xl md:text-4xl font-black text-brand tracking-tight">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Checkout</p>
+          <h1 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">
             Secure Payment
           </h1>
-          <p className="text-brand-muted mt-2 text-sm font-light">
+          <p className="text-gray-500 mt-2 text-sm font-light">
             Order #{orderId?.slice(-6).toUpperCase()} · Choose your preferred payment method
           </p>
         </div>
@@ -187,10 +187,10 @@ const Payment = () => {
         <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
 
           {/* Left — Payment Methods */}
-          <div className="bg-white rounded-xl border border-border overflow-hidden">
-            <div className="px-6 py-4 border-b border-border">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Payment Method</h2>
-              <p className="text-xs text-brand-muted mt-0.5 font-light">Select how you'd like to pay</p>
+          <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Payment Method</h2>
+              <p className="text-xs text-gray-500 mt-0.5 font-light">Select how you'd like to pay</p>
             </div>
 
             <div className="p-4 space-y-2">
@@ -198,24 +198,24 @@ const Payment = () => {
                 <button
                   key={pm.id}
                   onClick={() => setMethod(pm.id)}
-                  className={`w-full flex items-center gap-4 p-4 rounded-xl border-2 transition-all duration-200 text-left
+                  className={`w-full flex items-center gap-4 p-4 rounded-none border-2 transition-all duration-200 text-left
                     ${method === pm.id
                       ? "border-brand bg-surface"
-                      : "border-border hover:border-brand-light hover:bg-surface/50"
+                      : "border-gray-200 hover:border-brand-light hover:bg-surface/50"
                     }`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors
-                    ${method === pm.id ? "bg-brand text-white" : "bg-surface text-brand-muted border border-border"}`}>
+                  <div className={`w-10 h-10 rounded-none flex items-center justify-center shrink-0 transition-colors
+                    ${method === pm.id ? "bg-brand text-white" : "bg-surface text-gray-500 border border-gray-200"}`}>
                     {pm.icon}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`font-bold text-sm ${method === pm.id ? "text-brand" : "text-brand"}`}>
+                    <p className={`font-bold text-sm ${method === pm.id ? "text-gray-900" : "text-gray-900"}`}>
                       {pm.label}
                     </p>
-                    <p className="text-xs text-brand-muted mt-0.5 font-light">{pm.desc}</p>
+                    <p className="text-xs text-gray-500 mt-0.5 font-light">{pm.desc}</p>
                   </div>
-                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all
-                    ${method === pm.id ? "border-brand bg-brand" : "border-border"}`}>
+                  <div className={`w-5 h-5 rounded-none border-2 flex items-center justify-center shrink-0 transition-all
+                    ${method === pm.id ? "border-brand bg-brand" : "border-gray-200"}`}>
                     {method === pm.id && (
                       <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
@@ -228,38 +228,38 @@ const Payment = () => {
 
             {/* Card Fields (demo) */}
             {method === "CARD" && (
-              <div className="mx-6 mb-5 p-4 bg-surface rounded-xl border border-border space-y-3">
-                <p className="text-[10px] font-bold text-brand-muted uppercase tracking-[0.15em]">Card Details (Demo)</p>
+              <div className="mx-6 mb-5 p-4 bg-surface rounded-none border border-gray-200 space-y-3">
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.15em]">Card Details (Demo)</p>
                 <input
                   type="text" placeholder="1234 5678 9012 3456" disabled
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-lg text-sm outline-none
+                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm outline-none
                     focus:ring-2 focus:ring-accent/20 focus:border-accent"
                 />
                 <div className="flex gap-3">
                   <input type="text" placeholder="MM / YY" disabled
-                    className="flex-1 px-4 py-2.5 bg-white border border-border rounded-lg text-sm outline-none" />
+                    className="flex-1 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm outline-none" />
                   <input type="text" placeholder="CVV" disabled
-                    className="w-24 px-4 py-2.5 bg-white border border-border rounded-lg text-sm outline-none" />
+                    className="w-24 px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm outline-none" />
                 </div>
-                <p className="text-[10px] text-brand-muted font-light">Demo mode — no real card processing</p>
+                <p className="text-[10px] text-gray-500 font-light">Demo mode — no real card processing</p>
               </div>
             )}
 
             {method === "UPI" && (
-              <div className="mx-6 mb-5 p-4 bg-surface rounded-xl border border-border space-y-2">
-                <p className="text-[10px] font-bold text-brand-muted uppercase tracking-[0.15em]">UPI Details (Demo)</p>
+              <div className="mx-6 mb-5 p-4 bg-surface rounded-none border border-gray-200 space-y-2">
+                <p className="text-[10px] font-bold text-gray-500 uppercase tracking-[0.15em]">UPI Details (Demo)</p>
                 <input
                   type="text" placeholder="yourname@upi" disabled
-                  className="w-full px-4 py-2.5 bg-white border border-border rounded-lg text-sm outline-none
+                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-none text-sm outline-none
                     focus:ring-2 focus:ring-accent/20 focus:border-accent"
                 />
-                <p className="text-[10px] text-brand-muted font-light">Demo mode — payment will be auto-confirmed</p>
+                <p className="text-[10px] text-gray-500 font-light">Demo mode — payment will be auto-confirmed</p>
               </div>
             )}
 
             {/* Error */}
             {error && (
-              <div className="mx-6 mb-4 flex items-center gap-3 p-3 bg-red-50 border border-red-200 rounded-xl">
+              <div className="mx-6 mb-4 flex items-center gap-3 p-3 bg-red-50 border border-red-200 rounded-none">
                 <svg className="w-5 h-5 text-red-500 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                 </svg>
@@ -272,7 +272,7 @@ const Payment = () => {
               <button
                 onClick={confirmPayment}
                 disabled={loading}
-                className="w-full bg-brand text-white py-3.5 rounded-full font-bold text-sm uppercase tracking-wider
+                className="w-full bg-brand text-white py-3.5 rounded-none font-bold text-sm uppercase tracking-wider
                   hover:bg-brand/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed
                   flex items-center justify-center gap-2"
               >
@@ -296,7 +296,7 @@ const Payment = () => {
 
               <button
                 onClick={() => navigate("/customer")}
-                className="w-full py-2.5 text-[11px] text-brand-muted hover:text-brand font-bold uppercase tracking-wider transition-colors"
+                className="w-full py-2.5 text-[11px] text-gray-500 hover:text-gray-900 font-bold uppercase tracking-wider transition-colors"
               >
                 Cancel & Return to Marketplace
               </button>
@@ -305,7 +305,7 @@ const Payment = () => {
 
           {/* Right — Order Summary */}
           <div className="h-fit lg:sticky lg:top-24">
-            <div style={{ backgroundColor: "#1a1a1a" }} className="rounded-xl overflow-hidden">
+            <div style={{ backgroundColor: "#16A34A" }} className="rounded-none overflow-hidden">
               <div className="px-5 py-4 border-b border-white/10">
                 <h3 className="text-white font-bold text-xs uppercase tracking-[0.2em]">Order Summary</h3>
                 <p className="text-white/40 text-[10px] mt-0.5">#{orderId?.slice(-6).toUpperCase()}</p>
@@ -313,9 +313,9 @@ const Payment = () => {
 
               {fetchingOrder ? (
                 <div className="p-5 space-y-3 animate-pulse">
-                  <div className="h-4 bg-white/10 rounded w-3/4" />
-                  <div className="h-4 bg-white/10 rounded w-1/2" />
-                  <div className="h-4 bg-white/10 rounded w-2/3" />
+                  <div className="h-4 bg-white/10 rounded-none w-3/4" />
+                  <div className="h-4 bg-white/10 rounded-none w-1/2" />
+                  <div className="h-4 bg-white/10 rounded-none w-2/3" />
                 </div>
               ) : order ? (
                 <>
@@ -323,7 +323,7 @@ const Payment = () => {
                     {order.items?.map((item) => (
                       <div key={item._id} className="flex items-center justify-between text-xs">
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="w-6 h-6 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-bold text-white/60 shrink-0">
+                          <span className="w-6 h-6 bg-white/10 rounded-none flex items-center justify-center text-[10px] font-bold text-white/60 shrink-0">
                             {item.quantity}
                           </span>
                           <span className="text-white/60 truncate">

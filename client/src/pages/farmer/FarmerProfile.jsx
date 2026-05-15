@@ -43,7 +43,7 @@ const Toast = ({ message, type, onClose }) => {
   }, [onClose]);
 
   return (
-    <div className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-xl shadow-2xl text-white text-sm font-medium animate-slide-in
+    <div className={`fixed top-6 right-6 z-50 flex items-center gap-3 px-5 py-3 rounded-none shadow-2xl text-white text-sm font-medium animate-slide-in
       ${type === "success" ? "bg-gradient-to-r from-green-500 to-emerald-600" : "bg-gradient-to-r from-red-500 to-rose-600"}`}>
       {type === "success" ? (
         <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -60,16 +60,16 @@ const LabeledInput = ({ label, icon, value, disabled, onChange, placeholder }) =
   <div className="relative">
     <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">{label}</label>
     <div className="relative">
-      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">{icon}</span>
+      <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500">{icon}</span>
       <input
         value={value}
         disabled={disabled}
         onChange={onChange}
         placeholder={placeholder}
-        className={`w-full pl-11 pr-4 py-3 rounded-xl border text-sm font-medium transition-all duration-200
+        className={`w-full pl-11 pr-4 py-3 rounded-none border text-sm font-medium transition-all duration-200
           ${disabled
-            ? "bg-gray-50 border-gray-200 text-gray-600 cursor-default"
-            : "bg-white border-green-300 text-gray-800 focus:ring-2 focus:ring-green-500/30 focus:border-green-500 hover:border-green-400"
+            ? "bg-gray-50 border-gray-200 text-gray-500 cursor-default"
+            : "bg-white border-green-300 text-gray-900 focus:ring-2 focus:ring-green-500/30 focus:border-green-500 hover:border-green-400"
           }`}
       />
     </div>
@@ -78,13 +78,13 @@ const LabeledInput = ({ label, icon, value, disabled, onChange, placeholder }) =
 
 /* ─── section card ─── */
 const SectionCard = ({ icon, title, badge, children, className = "" }) => (
-  <div className={`bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200/60 shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}>
+  <div className={`bg-white/80 backdrop-blur-sm rounded-none border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 ${className}`}>
     <div className="flex items-center justify-between px-6 pt-6 pb-4">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-sm">
+        <div className="w-10 h-10 rounded-none bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white shadow-sm">
           {icon}
         </div>
-        <h2 className="text-lg font-bold text-gray-800">{title}</h2>
+        <h2 className="text-lg font-bold text-gray-900">{title}</h2>
       </div>
       {badge}
     </div>
@@ -202,7 +202,7 @@ const FarmerProfile = () => {
     return (
       <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-green-200 border-t-green-600 rounded-none animate-spin" />
           <p className="text-gray-500 font-medium">Loading profile…</p>
         </div>
       </div>
@@ -225,18 +225,18 @@ const FarmerProfile = () => {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600" />
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl -translate-y-1/2" />
-          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-teal-300 rounded-full blur-3xl translate-y-1/2" />
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-none blur-3xl -translate-y-1/2" />
+          <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-teal-300 rounded-none blur-3xl translate-y-1/2" />
         </div>
 
         <div className="relative max-w-5xl mx-auto px-6 py-12">
           <div className="flex flex-col sm:flex-row items-center sm:items-end gap-6">
             {/* avatar */}
             <div className="relative">
-              <div className="w-24 h-24 rounded-2xl bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center text-4xl font-bold text-white shadow-xl">
+              <div className="w-24 h-24 rounded-none bg-white/20 backdrop-blur-sm border-2 border-white/30 flex items-center justify-center text-4xl font-bold text-white shadow-xl">
                 {user?.name?.charAt(0).toUpperCase()}
               </div>
-              <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-lg bg-emerald-400 border-2 border-white flex items-center justify-center">
+              <div className="absolute -bottom-1 -right-1 w-7 h-7 rounded-none bg-emerald-400 border-2 border-white flex items-center justify-center">
                 <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
               </div>
             </div>
@@ -248,14 +248,14 @@ const FarmerProfile = () => {
               </h1>
               <p className="text-green-100 mt-1">{user?.email}</p>
               <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 mt-3">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
                   🌾 Farmer
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
                   📅 Joined {user?.createdAt ? new Date(user.createdAt).toLocaleDateString("en-IN", { month: "short", year: "numeric" }) : "N/A"}
                 </span>
                 {farmAddress && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none bg-white/15 backdrop-blur-sm text-xs font-semibold text-white border border-white/20">
                     📍 {farmAddress.city}, {farmAddress.state}
                   </span>
                 )}
@@ -265,7 +265,7 @@ const FarmerProfile = () => {
             {/* back to dashboard */}
             <button
               onClick={() => navigate("/farmer")}
-              className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm border border-white/25 text-sm font-semibold text-white hover:bg-white/25 transition-all"
+              className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-none bg-white/15 backdrop-blur-sm border border-white/25 text-sm font-semibold text-white hover:bg-white/25 transition-all"
             >
               ← Dashboard
             </button>
@@ -284,7 +284,7 @@ const FarmerProfile = () => {
             !isEditing ? (
               <button
                 onClick={() => setIsEditing(true)}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-semibold hover:bg-green-100 border border-green-200 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-green-50 text-green-700 text-sm font-semibold hover:bg-green-100 border border-green-200 transition-colors"
               >
                 <IconPencil /> Edit
               </button>
@@ -293,10 +293,10 @@ const FarmerProfile = () => {
                 <button
                   onClick={handleSave}
                   disabled={saving}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all disabled:opacity-60"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all disabled:opacity-60"
                 >
                   {saving ? (
-                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-none animate-spin" />
                   ) : (
                     <IconCheck />
                   )}
@@ -304,7 +304,7 @@ const FarmerProfile = () => {
                 </button>
                 <button
                   onClick={() => setIsEditing(false)}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-semibold hover:bg-gray-200 transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-gray-100 text-gray-500 text-sm font-semibold hover:bg-gray-200 transition-colors"
                 >
                   <IconX /> Cancel
                 </button>
@@ -347,7 +347,7 @@ const FarmerProfile = () => {
                   });
                   setIsEditingFarm(true);
                 }}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-green-50 text-green-700 text-sm font-semibold hover:bg-green-100 border border-green-200 transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-green-50 text-green-700 text-sm font-semibold hover:bg-green-100 border border-green-200 transition-colors"
               >
                 <IconPencil /> Edit
               </button>
@@ -356,10 +356,10 @@ const FarmerProfile = () => {
                 <button
                   onClick={handleSaveFarm}
                   disabled={savingFarm}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all disabled:opacity-60"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all disabled:opacity-60"
                 >
                   {savingFarm ? (
-                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                    <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-none animate-spin" />
                   ) : (
                     <IconCheck />
                   )}
@@ -367,7 +367,7 @@ const FarmerProfile = () => {
                 </button>
                 <button
                   onClick={() => setIsEditingFarm(false)}
-                  className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-100 text-gray-600 text-sm font-semibold hover:bg-gray-200 transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-2 rounded-none bg-gray-100 text-gray-500 text-sm font-semibold hover:bg-gray-200 transition-colors"
                 >
                   <IconX /> Cancel
                 </button>
@@ -397,19 +397,19 @@ const FarmerProfile = () => {
                 { label: "State", value: farmAddress.state },
                 { label: "Pincode", value: farmAddress.pincode },
               ].map((item) => (
-                <div key={item.label} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 border border-green-100">
+                <div key={item.label} className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-none p-4 border border-green-100">
                   <p className="text-xs font-semibold text-green-600 uppercase tracking-wider mb-1">{item.label}</p>
-                  <p className="text-sm font-bold text-gray-800">{item.value || "—"}</p>
+                  <p className="text-sm font-bold text-gray-900">{item.value || "—"}</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 gap-3">
-              <div className="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-2xl">📍</div>
+              <div className="w-14 h-14 rounded-none bg-amber-100 flex items-center justify-center text-2xl">📍</div>
               <p className="text-gray-500 font-medium">No farm address added yet</p>
               <button
                 onClick={() => setIsEditingFarm(true)}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all"
+                className="px-5 py-2.5 rounded-none bg-gradient-to-r from-green-500 to-emerald-600 text-white text-sm font-semibold hover:shadow-lg hover:shadow-green-500/25 transition-all"
               >
                 + Add Farm Address
               </button>
@@ -424,16 +424,16 @@ const FarmerProfile = () => {
               <button
                 key={action.label}
                 onClick={() => navigate(action.path)}
-                className={`group relative flex items-center gap-4 p-5 rounded-xl ${action.bg} ${action.border} border hover:shadow-md transition-all duration-300 text-left overflow-hidden`}
+                className={`group relative flex items-center gap-4 p-5 rounded-none ${action.bg} ${action.border} border hover:shadow-md transition-all duration-300 text-left overflow-hidden`}
               >
-                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center text-xl shadow-sm shrink-0`}>
+                <div className={`w-12 h-12 rounded-none bg-gradient-to-br ${action.color} flex items-center justify-center text-xl shadow-sm shrink-0`}>
                   {action.icon}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-gray-800 text-sm">{action.label}</h3>
+                  <h3 className="font-bold text-gray-900 text-sm">{action.label}</h3>
                   <p className="text-xs text-gray-500 mt-0.5">{action.desc}</p>
                 </div>
-                <span className="text-gray-300 group-hover:text-gray-500 group-hover:translate-x-1 transition-all">
+                <span className="text-border group-hover:text-gray-500 group-hover:translate-x-1 transition-all">
                   <IconArrow />
                 </span>
               </button>
@@ -444,32 +444,32 @@ const FarmerProfile = () => {
         {/* ─── SECURITY ─── */}
         <SectionCard icon={<IconShield />} title="Account Security">
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="flex items-center justify-between p-5 rounded-xl bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-200">
+            <div className="flex items-center justify-between p-5 rounded-none bg-gradient-to-br from-gray-50 to-slate-50 border border-gray-200">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
+                <div className="w-10 h-10 rounded-none bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-sm">
                   🔒
                 </div>
                 <div>
-                  <p className="font-bold text-gray-800 text-sm">Password</p>
+                  <p className="font-bold text-gray-900 text-sm">Password</p>
                   <p className="text-xs text-gray-500">Last changed: Unknown</p>
                 </div>
               </div>
-              <button className="px-4 py-2 rounded-xl bg-white border border-gray-200 text-sm font-semibold text-gray-700 hover:bg-gray-100 transition-colors shadow-sm">
+              <button className="px-4 py-2 rounded-none bg-white border border-gray-200 text-sm font-semibold text-gray-900 hover:bg-gray-100 transition-colors shadow-sm">
                 Change
               </button>
             </div>
 
-            <div className="flex items-center justify-between p-5 rounded-xl bg-gradient-to-br from-red-50 to-rose-50 border border-red-100">
+            <div className="flex items-center justify-between p-5 rounded-none bg-gradient-to-br from-red-50 to-rose-50 border border-red-100">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-white shadow-sm">
+                <div className="w-10 h-10 rounded-none bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center text-white shadow-sm">
                   ⚠️
                 </div>
                 <div>
-                  <p className="font-bold text-gray-800 text-sm">Delete Account</p>
+                  <p className="font-bold text-gray-900 text-sm">Delete Account</p>
                   <p className="text-xs text-gray-500">Permanently remove data</p>
                 </div>
               </div>
-              <button className="px-4 py-2 rounded-xl bg-white border border-red-200 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
+              <button className="px-4 py-2 rounded-none bg-white border border-red-200 text-sm font-semibold text-red-600 hover:bg-red-50 transition-colors shadow-sm">
                 Delete
               </button>
             </div>

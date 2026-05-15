@@ -33,11 +33,11 @@ const Cart = () => {
         <div className="min-h-screen bg-surface">
 
             {/* ── Header ── */}
-            <div className="bg-surface-light pt-28 pb-14 px-6 lg:px-10 border-b border-border">
+            <div className="bg-gray-50 pt-28 pb-14 px-6 lg:px-10 border-b border-gray-200">
                 <div className="max-w-4xl mx-auto">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mb-2">Marketplace</p>
-                    <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight">Your Cart</h1>
-                    <p className="text-brand-muted mt-2 text-sm font-light">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">Marketplace</p>
+                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">Your Cart</h1>
+                    <p className="text-gray-500 mt-2 text-sm font-light">
                         {cart.length === 0
                             ? "Your cart is empty"
                             : `${cart.length} product${cart.length !== 1 ? "s" : ""} · ${cartCount} total items`}
@@ -49,14 +49,14 @@ const Cart = () => {
 
                 {/* ── Empty State ── */}
                 {cart.length === 0 && (
-                    <div className="bg-white rounded-xl border border-border py-20 text-center">
-                        <div className="w-20 h-20 bg-surface border border-border rounded-2xl flex items-center justify-center mx-auto mb-5">
-                            <svg className="w-10 h-10 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <div className="bg-white rounded-none border border-gray-200 py-20 text-center">
+                        <div className="w-20 h-20 bg-surface border border-gray-200 rounded-none flex items-center justify-center mx-auto mb-5">
+                            <svg className="w-10 h-10 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
                             </svg>
                         </div>
-                        <h3 className="text-xl font-black text-brand mb-1">Your cart is empty</h3>
-                        <p className="text-sm text-brand-muted mb-6 font-light">Browse the marketplace to add products</p>
+                        <h3 className="text-xl font-black text-gray-900 mb-1">Your cart is empty</h3>
+                        <p className="text-sm text-gray-500 mb-6 font-light">Browse the marketplace to add products</p>
                         <button onClick={() => navigate("/customer")} className="pill pill-filled">
                             Browse Marketplace
                         </button>
@@ -70,7 +70,7 @@ const Cart = () => {
                         {/* Items List */}
                         <div className="space-y-4">
                             <div className="flex items-center justify-between mb-2">
-                                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">
+                                <h2 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">
                                     Cart Items ({cart.length})
                                 </h2>
                                 <button onClick={clearCart} className="text-[11px] font-bold uppercase tracking-wider text-red-500 hover:text-red-700 transition-colors">
@@ -79,37 +79,37 @@ const Cart = () => {
                             </div>
 
                             {cart.map((item) => (
-                                <div key={item._id} className="bg-white rounded-xl border border-border p-5 hover:border-brand-light transition-colors">
+                                <div key={item._id} className="bg-white rounded-none border border-gray-200 p-5 hover:border-brand-light transition-colors">
                                     <div className="flex items-start justify-between gap-4">
                                         <div className="flex-1 min-w-0">
-                                            <p className="text-[10px] uppercase tracking-[0.15em] text-brand-muted font-bold mb-1">
+                                            <p className="text-[10px] uppercase tracking-[0.15em] text-gray-500 font-bold mb-1">
                                                 {item.masterProduct?.category || "Product"}
                                             </p>
-                                            <h3 className="text-sm font-bold text-brand">
+                                            <h3 className="text-sm font-bold text-gray-900">
                                                 {item.masterProduct?.name || item.farmerName || "Product"}
                                             </h3>
                                             {item.farmerName && (
-                                                <p className="text-xs text-brand-muted font-light mt-0.5">
+                                                <p className="text-xs text-gray-500 font-light mt-0.5">
                                                     Seller: {item.farmerName}
                                                 </p>
                                             )}
                                             {item.distance && (
-                                                <p className="text-xs text-brand-muted font-light mt-0.5">
+                                                <p className="text-xs text-gray-500 font-light mt-0.5">
                                                     {item.distance} km away
                                                 </p>
                                             )}
                                         </div>
-                                        <p className="text-lg font-black text-brand whitespace-nowrap">
+                                        <p className="text-lg font-black text-gray-900 whitespace-nowrap">
                                             ₹{(item.price * item.quantity).toLocaleString()}
                                         </p>
                                     </div>
 
-                                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-border">
+                                    <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200">
                                         <div className="flex items-center gap-1">
                                             <button
                                                 onClick={() => decreaseQuantity(item._id)}
                                                 disabled={item.quantity <= 1}
-                                                className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-brand-muted hover:bg-surface disabled:opacity-30 transition-all"
+                                                className="w-8 h-8 rounded-none border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-surface disabled:opacity-30 transition-all"
                                             >
                                                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
@@ -121,25 +121,25 @@ const Cart = () => {
                                                 onChange={(e) => updateQuantity(item._id, Number(e.target.value))}
                                                 min={1}
                                                 max={item.availableStock}
-                                                className="w-14 h-8 text-center text-sm font-bold text-brand border border-border rounded-lg bg-surface
+                                                className="w-14 h-8 text-center text-sm font-bold text-gray-900 border border-gray-200 rounded-none bg-surface
                           [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                             />
                                             <button
                                                 onClick={() => increaseQuantity(item._id)}
                                                 disabled={item.quantity >= (item.availableStock || 9999)}
-                                                className="w-8 h-8 rounded-lg border border-border flex items-center justify-center text-brand-muted hover:bg-surface disabled:opacity-30 transition-all"
+                                                className="w-8 h-8 rounded-none border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-surface disabled:opacity-30 transition-all"
                                             >
                                                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                                 </svg>
                                             </button>
-                                            <span className="text-[10px] text-brand-muted ml-2 font-medium">
+                                            <span className="text-[10px] text-gray-500 ml-2 font-medium">
                                                 ₹{item.price}/{item.unit || "kg"}
                                             </span>
                                         </div>
                                         <button
                                             onClick={() => removeFromCart(item._id)}
-                                            className="text-[11px] font-bold uppercase tracking-wider text-brand-muted hover:text-red-600 transition-colors"
+                                            className="text-[11px] font-bold uppercase tracking-wider text-gray-500 hover:text-red-600 transition-colors"
                                         >
                                             Remove
                                         </button>
@@ -150,7 +150,7 @@ const Cart = () => {
 
                         {/* ── Order Summary Sidebar ── */}
                         <div className="lg:sticky lg:top-24 h-fit">
-                            <div style={{ backgroundColor: "#1a1a1a" }} className="rounded-xl overflow-hidden">
+                            <div style={{ backgroundColor: "#16A34A" }} className="rounded-none overflow-hidden">
                                 {/* Header */}
                                 <div className="px-6 py-5 border-b border-white/10">
                                     <h3 className="text-white font-bold text-xs uppercase tracking-[0.2em]">Order Summary</h3>
@@ -190,8 +190,8 @@ const Cart = () => {
 
                                     <button
                                         onClick={placeOrder}
-                                        className="w-full mt-4 bg-white text-brand font-bold text-sm uppercase tracking-wider
-                      py-3.5 rounded-full hover:bg-white/90 transition-colors"
+                                        className="w-full mt-4 bg-white text-gray-900 font-bold text-sm uppercase tracking-wider
+                      py-3.5 rounded-none hover:bg-white/90 transition-colors"
                                     >
                                         Place Order
                                     </button>

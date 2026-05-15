@@ -1,0 +1,30 @@
+[
+  {
+    "id": "698db094db31e8758c8725be",
+    "name": "Apple",
+    "category": "Fruits",
+    "unit": "kg",
+    "image": "/images/apple.jpg\n"
+  },
+  {
+    "id": "69a85c52f50da0131cec47ac",
+    "name": "Onion",
+    "category": "Vegetables",
+    "unit": "kg",
+    "image": "/images/onion.jpg"
+  },
+  {
+    "id": "698db0a9db31e8758c8725c0",
+    "name": "Potato",
+    "category": "Vegetables",
+    "unit": "kg",
+    "image": "/images/potato.jpg\n"
+  },
+  {
+    "id": "698db067db31e8758c8725ba",
+    "name": "Tomato",
+    "category": "Vegetables",
+    "unit": "kg",
+    "image": "/images/tomato.jpg\n"
+  }
+]

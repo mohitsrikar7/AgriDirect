@@ -79,7 +79,7 @@ const Navbar = () => {
 
   /* ── Pill style helpers ─────────────────────────── */
   const pillBase = `
-    inline-flex items-center gap-2 rounded-full text-[13px] font-medium
+    inline-flex items-center gap-2 rounded-none text-[13px] font-medium
     transition-all duration-300 ease-out
   `;
 
@@ -94,13 +94,13 @@ const Navbar = () => {
     : isLanding ? "text-white/90" : "text-gray-800";
 
   const textHover = scrolled
-    ? "hover:text-[#2d5a3d]"
-    : isLanding ? "hover:text-white" : "hover:text-[#2d5a3d]";
+    ? "hover:text-[#16A34A]"
+    : isLanding ? "hover:text-white" : "hover:text-[#16A34A]";
 
   /* ── Profile dropdown ─────────────────────────── */
   const DropdownMenu = ({ children }) => (
     <div className="absolute right-0 mt-2 w-52 bg-white/95 backdrop-blur-xl
-      rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-gray-100
+      rounded-none shadow-[0_12px_40px_rgba(0,0,0,0.12)] border border-gray-100
       py-2 z-50 animate-fade-in-up">
       {children}
     </div>
@@ -115,8 +115,8 @@ const Navbar = () => {
 
   const ProfileAvatar = ({ onClick }) => (
     <button onClick={onClick} className={`flex items-center gap-2.5 ${pillBase} ${navPill} px-3 py-2`}>
-      <div className="w-7 h-7 bg-[#2d5a3d] text-white flex items-center justify-center
-        rounded-full text-xs font-bold tracking-tight">
+      <div className="w-7 h-7 bg-[#16A34A] text-white flex items-center justify-center
+        rounded-none text-xs font-bold tracking-tight">
         {user?.name?.charAt(0).toUpperCase()}
       </div>
       <span className={`hidden md:block text-[13px] font-medium ${textColor}`}>
@@ -127,7 +127,7 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500
-      ${scrolled ? "py-2.5" : "py-4"}`}>
+      ${scrolled ? "py-2.5 bg-white border-b border-gray-200/60" : "py-4"}`}>
       <div className="max-w-[1440px] mx-auto px-5 md:px-8 flex items-center justify-between gap-3">
 
         {/* ── Logo Pill ── */}
@@ -135,17 +135,8 @@ const Navbar = () => {
           AgriDirect
         </Link>
 
-        {/* ── Center Nav Pills (customer links) ── */}
-        {user && activeRole === "customer" && (
-          <div className={`hidden md:flex ${pillBase} ${navPill} px-1.5 py-1.5 gap-0`}>
-            <Link to="/customer" className={`px-4 py-1.5 rounded-full ${textColor} ${textHover} transition-colors text-[13px] font-medium`}>
-              Marketplace
-            </Link>
-            <Link to="/customer/orders" className={`px-4 py-1.5 rounded-full ${textColor} ${textHover} transition-colors text-[13px] font-medium`}>
-              Orders
-            </Link>
-          </div>
-        )}
+
+
 
         {/* ── Right-side Actions ── */}
         <div className="flex items-center gap-2.5">
@@ -158,10 +149,10 @@ const Navbar = () => {
               </Link>
               <Link to="/register" className={`${pillBase} px-5 py-2.5 font-semibold tracking-wide
                 ${scrolled
-                  ? "bg-[#1a1a1a] text-white border border-[#1a1a1a] hover:bg-[#333]"
+                  ? "bg-[#16A34A] text-white border border-[#16A34A] hover:bg-[#15803d]"
                   : isLanding
-                    ? "bg-white text-[#1a1a1a] border border-white hover:bg-white/90"
-                    : "bg-[#1a1a1a] text-white border border-[#1a1a1a] hover:bg-[#333]"
+                    ? "bg-white text-[#16A34A] border border-white hover:bg-white/90"
+                    : "bg-[#16A34A] text-white border border-[#16A34A] hover:bg-[#15803d]"
                 }`}>
                 Register
               </Link>

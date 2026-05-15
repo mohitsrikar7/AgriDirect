@@ -54,6 +54,27 @@ addresses: [
       latitude: Number,
       longitude: Number,
     },
+    advisoryProfile: {
+      soilType: {
+        type: String,
+        enum: ["sandy", "laterite", "red", "loamy", "alluvial", "clay", "black"],
+      },
+      soilPh: {
+        type: Number,
+        min: 3.5,
+        max: 10,
+      },
+      irrigation: {
+        type: String,
+        enum: ["low", "medium", "high"],
+        default: "medium",
+      },
+      season: {
+        type: String,
+        enum: ["kharif", "rabi", "zaid"],
+      },
+      lastUpdatedAt: Date,
+    },
   },
   { timestamps: true }
 );

@@ -25,10 +25,10 @@ const PaymentSuccess = () => {
     <div className="min-h-screen bg-surface">
 
       {/* ── Header ── */}
-      <div className="bg-surface-light pt-28 pb-20 px-6 border-b border-border">
+      <div className="bg-gray-50 pt-28 pb-20 px-6 border-b border-gray-200">
         <div className="max-w-2xl mx-auto text-center">
           {/* Icon */}
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-white border border-border mb-6">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-none bg-white border border-gray-200 mb-6">
             {isPaid ? (
               <svg className="w-10 h-10 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -40,13 +40,13 @@ const PaymentSuccess = () => {
             )}
           </div>
 
-          <p className="text-[10px] uppercase tracking-[0.2em] text-brand-muted font-bold mb-2">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-gray-500 font-bold mb-2">
             {isPaid ? "Payment Confirmed" : "Order Placed"}
           </p>
-          <h1 className="text-4xl md:text-5xl font-black text-brand tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">
             {isPaid ? "Thank You!" : "Order Confirmed"}
           </h1>
-          <p className="text-brand-muted mt-2 text-sm font-light">
+          <p className="text-gray-500 mt-2 text-sm font-light">
             {isPaid
               ? "Your payment has been processed securely"
               : "Pay with cash when your order is delivered"}
@@ -58,19 +58,19 @@ const PaymentSuccess = () => {
       <div className="max-w-2xl mx-auto px-6 -mt-10 pb-16 space-y-5">
 
         {/* Status Banner */}
-        <div className={`rounded-xl border px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-2
+        <div className={`rounded-none border px-5 py-3 text-xs font-bold uppercase tracking-[0.15em] flex items-center gap-2
           ${isPaid
             ? "bg-accent-muted text-accent border-accent/20"
             : "bg-amber-50 text-amber-700 border-amber-200"
           }`}>
-          <span className={`w-2 h-2 rounded-full ${isPaid ? "bg-accent" : "bg-amber-500 animate-pulse"}`} />
+          <span className={`w-2 h-2 rounded-none ${isPaid ? "bg-accent" : "bg-amber-500 animate-pulse"}`} />
           {isPaid ? "Payment confirmed" : "Cash on Delivery — Pay when delivered"}
         </div>
 
         {/* Order Details Card */}
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Order Details</h3>
+        <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Order Details</h3>
           </div>
 
           <div className="divide-y divide-border">
@@ -78,36 +78,36 @@ const PaymentSuccess = () => {
               {
                 label: "Order ID",
                 value: (
-                  <span className="text-sm font-mono font-bold text-brand bg-surface px-3 py-1 rounded-lg border border-border">
+                  <span className="text-sm font-mono font-bold text-gray-900 bg-surface px-3 py-1 rounded-none border border-gray-200">
                     #{order._id.slice(-8).toUpperCase()}
                   </span>
                 ),
               },
               {
                 label: "Payment Method",
-                value: <span className="text-sm font-bold text-brand">{methodLabels[order.paymentMethod] || order.paymentMethod}</span>,
+                value: <span className="text-sm font-bold text-gray-900">{methodLabels[order.paymentMethod] || order.paymentMethod}</span>,
               },
               {
                 label: "Status",
                 value: (
-                  <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-[0.12em]
+                  <span className={`inline-flex items-center gap-1.5 text-[10px] font-bold px-3 py-1.5 rounded-none uppercase tracking-[0.12em]
                     ${isPaid ? "bg-accent-muted text-accent" : "bg-amber-50 text-amber-700"}`}>
-                    <span className={`w-1.5 h-1.5 rounded-full ${isPaid ? "bg-accent" : "bg-amber-500"}`} />
+                    <span className={`w-1.5 h-1.5 rounded-none ${isPaid ? "bg-accent" : "bg-amber-500"}`} />
                     {order.paymentStatus}
                   </span>
                 ),
               },
               {
                 label: "Total Amount",
-                value: <span className="text-2xl font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</span>,
+                value: <span className="text-2xl font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</span>,
               },
               {
                 label: "Date",
-                value: <span className="text-sm text-brand-muted">{formattedDate}</span>,
+                value: <span className="text-sm text-gray-500">{formattedDate}</span>,
               },
             ].map((row) => (
               <div key={row.label} className="flex items-center justify-between px-6 py-4">
-                <span className="text-xs text-brand-muted font-medium">{row.label}</span>
+                <span className="text-xs text-gray-500 font-medium">{row.label}</span>
                 {row.value}
               </div>
             ))}
@@ -115,30 +115,30 @@ const PaymentSuccess = () => {
         </div>
 
         {/* Items Card */}
-        <div className="bg-white rounded-xl border border-border overflow-hidden">
-          <div className="px-6 py-4 border-b border-border">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-brand-muted">Order Items</h3>
+        <div className="bg-white rounded-none border border-gray-200 overflow-hidden">
+          <div className="px-6 py-4 border-b border-gray-200">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-500">Order Items</h3>
           </div>
 
           <div className="divide-y divide-border">
             {order.items.map((item) => (
               <div key={item._id} className="px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-surface border border-border rounded-xl flex items-center justify-center">
-                    <svg className="w-5 h-5 text-brand-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <div className="w-10 h-10 bg-surface border border-gray-200 rounded-none flex items-center justify-center">
+                    <svg className="w-5 h-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                     </svg>
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-brand">
+                    <p className="text-sm font-bold text-gray-900">
                       {item.product?.masterProduct?.name || "Product"}
                     </p>
-                    <p className="text-xs text-brand-muted font-light">
+                    <p className="text-xs text-gray-500 font-light">
                       {item.quantity} &times; ₹{Number(item.price).toLocaleString()}
                     </p>
                   </div>
                 </div>
-                <span className="text-sm font-black text-brand">
+                <span className="text-sm font-black text-gray-900">
                   ₹{(item.price * item.quantity).toLocaleString()}
                 </span>
               </div>
@@ -146,9 +146,9 @@ const PaymentSuccess = () => {
           </div>
 
           {/* Total */}
-          <div className="px-6 py-4 bg-surface border-t border-border flex items-center justify-between">
-            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-brand-muted">Total</span>
-            <span className="text-xl font-black text-brand">₹{Number(order.totalAmount).toLocaleString()}</span>
+          <div className="px-6 py-4 bg-surface border-t border-gray-200 flex items-center justify-between">
+            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-gray-500">Total</span>
+            <span className="text-xl font-black text-gray-900">₹{Number(order.totalAmount).toLocaleString()}</span>
           </div>
         </div>
 
@@ -170,7 +170,7 @@ const PaymentSuccess = () => {
         </div>
 
         {/* Trust footer */}
-        <p className="text-center text-[10px] text-brand-muted font-light flex items-center justify-center gap-1.5 pt-2">
+        <p className="text-center text-[10px] text-gray-500 font-light flex items-center justify-center gap-1.5 pt-2">
           <svg className="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
           </svg>

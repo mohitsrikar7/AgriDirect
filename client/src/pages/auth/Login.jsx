@@ -47,7 +47,7 @@ const Login = () => {
         backgroundImage: `url(${authHero})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        fontFamily: "'Outfit', system-ui, sans-serif",
+        fontFamily: "'Poppins', system-ui, sans-serif",
       }}
     >
       {/* Dark overlay */}
@@ -87,7 +87,7 @@ const Login = () => {
       <div className="w-full lg:w-2/5 flex items-center justify-center relative z-10 p-8">
 
         <div className="w-full max-w-md bg-white/[0.95] backdrop-blur-2xl p-10 md:p-12
-          rounded-[2rem] shadow-[0_24px_80px_rgba(0,0,0,0.25)]
+          rounded-none shadow-[0_24px_80px_rgba(0,0,0,0.25)]
           border border-white/50">
 
           <h2 style={{
@@ -109,9 +109,9 @@ const Login = () => {
             <input
               type="email"
               placeholder="Email address"
-              className="w-full px-5 py-3.5 rounded-full text-sm
+              className="w-full px-5 py-3.5 rounded-none text-sm
                 bg-gray-50 border border-gray-200
-                focus:outline-none focus:ring-2 focus:ring-[#2d5a3d]/30 focus:border-[#2d5a3d]
+                focus:outline-none focus:ring-2 focus:ring-[#16A34A]/30 focus:border-[#16A34A]
                 transition-all placeholder:text-gray-400"
               style={{ fontWeight: 400 }}
               value={email}
@@ -122,9 +122,9 @@ const Login = () => {
             <input
               type="password"
               placeholder="Password"
-              className="w-full px-5 py-3.5 rounded-full text-sm
+              className="w-full px-5 py-3.5 rounded-none text-sm
                 bg-gray-50 border border-gray-200
-                focus:outline-none focus:ring-2 focus:ring-[#2d5a3d]/30 focus:border-[#2d5a3d]
+                focus:outline-none focus:ring-2 focus:ring-[#16A34A]/30 focus:border-[#16A34A]
                 transition-all placeholder:text-gray-400"
               style={{ fontWeight: 400 }}
               value={password}
@@ -134,15 +134,15 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full py-3.5 rounded-full font-semibold text-sm
+              className="w-full py-3.5 rounded-none font-semibold text-sm
                 transition-all duration-300 active:scale-[0.98]"
               style={{
-                background: "#1a1a1a", color: "#fff",
+                background: "#16A34A", color: "#fff",
                 letterSpacing: "0.04em", textTransform: "uppercase",
                 fontSize: "0.8125rem",
               }}
-              onMouseOver={e => e.currentTarget.style.background = "#333"}
-              onMouseOut={e => e.currentTarget.style.background = "#1a1a1a"}
+              onMouseOver={e => e.currentTarget.style.background = "#15803d"}
+              onMouseOut={e => e.currentTarget.style.background = "#16A34A"}
             >
               Login
             </button>
@@ -152,7 +152,7 @@ const Login = () => {
           <p className="text-sm text-center mt-8" style={{ color: "#999", fontWeight: 300 }}>
             New here?{" "}
             <Link to="/register" style={{
-              color: "#2d5a3d", fontWeight: 600, textDecoration: "none",
+              color: "#16A34A", fontWeight: 600, textDecoration: "none",
             }}>
               Create an account
             </Link>
